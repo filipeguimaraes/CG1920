@@ -1,11 +1,14 @@
+#include <stdlib.h>
+
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
 #include <GL/glut.h>
 #endif
 
+#include <vector>
+#include <structs/ponto_3d.h>
 #include <stdio.h>
-#include <math.h>
 
 float myanglex = 0;
 float myangley = 0;
@@ -13,7 +16,7 @@ float myanglez = 0;
 float alt = 1;
 float myx = 0;
 float myz = 0;
-
+std::vector<PONTO> pontos;
 
 void changeSize(int w, int h) {
 
@@ -40,6 +43,26 @@ void changeSize(int w, int h) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
+
+void draw_from_file(char *file) {
+    if(pontos.empty()){
+        FILE *f;
+        float x,y,z;
+        f = fopen(file, "r");
+        while(!feof(f)){
+            fscanf_s(f,"%f, %f, %f\n",&x,&y,&z);
+            PONTO p; p.x=x; p.y=y; p.z=z;
+            pontos.push_back(p);
+        }
+        fclose(f);
+    }
+    int k =  pontos.size();
+    for (int j = 0; j < k; ++j) {
+        float cor=0.0f,cor1=0.0f,cor2=0.0f;
+        if (j%3==0)cor=cos(j),cor1=sin(j),cor2=sin(j)*cos(j),glColor3f(cor2, cor1, cor);
+        glVertex3f(pontos[j].x,pontos[j].y,pontos[j].z);
+    }
+}
 
 
 void renderScene(void) {
@@ -75,26 +98,13 @@ void renderScene(void) {
     //drawing instructions
     glBegin(GL_TRIANGLES);
 
-    FILE *f;
-    float x,y,z;
-    int i = 0;
-    float cor=0.0f;
-    f  = fopen("new_box","r");
-    while(!feof(f)){i++;
-        if(i%6==0) cor = 0;
-        if (i%3==0)cor+=0.5f,glColor3f(cor, 0.0f, 0.0f);
-        fscanf(f,"%f, %f, %f\n",&x,&y,&z);
-        glVertex3f(x,y,z);
-    }
-    fclose(f);
+    draw_from_file("new_box");
 
     glEnd();
 
 	// End of frame
 	glutSwapBuffers();
 }
-
-
 
 // write function to process keyboard events
 

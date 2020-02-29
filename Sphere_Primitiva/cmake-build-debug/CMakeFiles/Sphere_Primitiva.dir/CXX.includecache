@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/MyStuff/UM/Informática/3º Ano/2ºSemestre/CG/Pratical Assigment/Sphere_Primitiva/main.cpp
+iostream
+-
+unistd.h
+-
+fcntl.h
+-
+errno.h
+-
+string.h
+-
+math.h
+-
+

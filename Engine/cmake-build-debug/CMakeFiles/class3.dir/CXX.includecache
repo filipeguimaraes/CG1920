@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/MyStuff/UM/Informática/3º Ano/2ºSemestre/CG/Pratical Assigment/Engine/main.cpp
+GLUT/glut.h
+-
+unistd.h
+-
+fcntl.h
+-
+stdio.h
+-
+errno.h
+-
+string.h
+-
+math.h
+-
+GL/glut.h
+-
+math.h
+-
+

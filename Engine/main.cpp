@@ -17,6 +17,9 @@ struct Vertice{
     float z;
 };
 
+float angleBETA = M_PI/4;
+float angleALFA = M_PI/4;
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -79,9 +82,14 @@ void renderScene(void) {
 
 	// set the camera
 	glLoadIdentity();
-	gluLookAt(2,2,2,
-		      0.0,0.0,0.0,
-			  0.0f,1.0f,0.0f);
+
+    float px = 6 * cos(angleBETA) * sin(angleALFA);
+    float py = 6 * sin(angleBETA);
+    float pz = 6 * cos(angleBETA) * cos(angleALFA);
+
+    gluLookAt(px,py,pz,
+              0.0,0.0,0.0,
+              0.0f,1.0f,0.0f);
 
 
     glBegin(GL_LINES);
@@ -115,10 +123,14 @@ void processKeys(unsigned char c, int xx, int yy) {
 }
 
 
-void processSpecialKeys(int key, int xx, int yy) {
+void processSpecialKeys(int key_code, int xx, int yy) {
+    //permite ter explorer mode camera
+    if(key_code==GLUT_KEY_LEFT) angleALFA += -0.1;
+    if(key_code==GLUT_KEY_RIGHT) angleALFA += 0.1;
+    if(key_code==GLUT_KEY_DOWN && (angleBETA - 0.1) > -M_PI/2) angleBETA += -0.1;
+    if(key_code==GLUT_KEY_UP && (angleBETA + 0.1) < M_PI/2) angleBETA += 0.1;
 
-// put code to process special keys in here
-
+    glutPostRedisplay();
 }
 
 

@@ -13,12 +13,18 @@
 #include <vector>
 #include <iostream>
 
+#include <math.h>
+
 float myanglex = 0;
 float myangley = 0;
 float myanglez = 0;
 float alt = 1;
 float myx = 0;
 float myz = 0;
+
+float angleBETA = M_PI/4;
+float angleALFA = M_PI/4;
+
 
 std::vector<PONTO> pontos;
 TiXmlDocument doc;
@@ -104,7 +110,12 @@ void renderScene(void) {
 
     // set the camera
     glLoadIdentity();
-    gluLookAt(5.0, 5.0, 5.0,
+
+    float px = 18 * cos(angleBETA) * sin(angleALFA);
+    float py = 18 * sin(angleBETA);
+    float pz = 18 * cos(angleBETA) * cos(angleALFA);
+
+    gluLookAt(px,py,pz,
               0.0, 0.0, 0.0,
               0.0f, 1.0f, 0.0f);
 
@@ -200,6 +211,16 @@ void keyboardIsPressed(unsigned char key, int x, int y) {
 }
 
 
+void processSpecialKeys(int key_code, int xx, int yy) {
+    //permite ter explorer mode camera
+    if(key_code==GLUT_KEY_LEFT) angleALFA += -0.1;
+    if(key_code==GLUT_KEY_RIGHT) angleALFA += 0.1;
+    if(key_code==GLUT_KEY_DOWN && (angleBETA - 0.1) > -M_PI/2) angleBETA += -0.1;
+    if(key_code==GLUT_KEY_UP && (angleBETA + 0.1) < M_PI/2) angleBETA += 0.1;
+
+    glutPostRedisplay();
+}
+
 int main(int argc, char **argv) {
 // init GLUT and the window
     glutInit(&argc, argv);
@@ -215,7 +236,7 @@ int main(int argc, char **argv) {
 
 // put here the registration of the keyboard callbacks
     glutKeyboardFunc(keyboardIsPressed);
-
+    glutSpecialFunc(processSpecialKeys);
 
 //  OpenGL settings
     glEnable(GL_DEPTH_TEST);

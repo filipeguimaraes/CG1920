@@ -113,7 +113,7 @@ int box(char * file_path, float x, float y, float z, int div){
 void cone(char * file, float h, float r, float slices, float stacks){
     FILE * f = fopen(file,"w");
     float a = 0;
-    float h1 = 0;
+    float h1 = -h/2;
     float h2;
     float r1 = r;
     float r2 = 0;
@@ -122,10 +122,10 @@ void cone(char * file, float h, float r, float slices, float stacks){
 
     //base
     while (a < 2 * M_PI) {
-        write_point(f,0,0, 0);
-        write_point(f,r * cos(a), 0, r * sin(a));
+        write_point(f,0,h1, 0);
+        write_point(f,r * cos(a), h1, r * sin(a));
         a += angulo;
-        write_point(f,r * cos(a), 0, r * sin(a));
+        write_point(f,r * cos(a), h1, r * sin(a));
     }
     a=0;
 

@@ -1,0 +1,17 @@
+<package format="2">
+  <name>tinyxml</name>
+  <version>2.6.2</version>
+  <description>tinyxml</description>
+  <maintainer email="ibtaylor@gmail.com">Ian Taylor</maintainer>
+  <author email="leethomason@mindspring.com">Lee Thomason</author>
+
+  <url>http://www.grinninglizard.com/tinyxml/index.html</url>
+  
+  <license>Zlib</license>
+
+  <buildtool_depend>cmake</buildtool_depend>
+
+  <export>
+    <build_type>cmake</build_type>
+  </export>
+</package>

@@ -17,12 +17,12 @@ int isNumber(char * num){
 
 int plane(char * file_path, float a){
     FILE * f = fopen(file_path,"w");
-    write_point(f,  a/2,  0.0f,  a/2);
-    write_point(f,  a/2,  0.0f, -a/2);
-    write_point(f, -a/2,  0.0f, -a/2);
-    write_point(f,  a/2,  0.0f,  a/2);
-    write_point(f, -a/2,  0.0f, -a/2);
-    write_point(f, -a/2,  0.0f,  a/2);
+    write_point(f,  a/2 , 0.0f,  a/2);
+    write_point(f,  a/2 , 0.0f, -a/2);
+    write_point(f, -a/2 , 0.0f, -a/2);
+    write_point(f,  a/2 , 0.0f,  a/2);
+    write_point(f, -a/2 , 0.0f, -a/2);
+    write_point(f, -a/2 , 0.0f,  a/2);
     fclose(f);
     return 0;
 }
@@ -53,7 +53,7 @@ void planeYZ(FILE * f,  float x, float y, float z, float tamy, float tamz, int d
     write_point(f, x , y * dir           , z + tamz );
 
     write_point(f, x , (y + tamy) * dir , z );
-    write_point(f, x ,(y + tamy) * dir  , z + tamz );
+    write_point(f, x , (y + tamy) * dir , z + tamz );
     write_point(f, x , y * dir          , z + tamz );
 }
 

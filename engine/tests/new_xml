@@ -1,0 +1,6 @@
+<scene>
+<model file="new_box" />
+<model file="new_sphere" />
+<model file="new_cone" />
+<model file="new_plane" />
+</scene>

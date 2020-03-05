@@ -16,12 +16,8 @@
 
 #include <math.h>
 
-float myanglex = 0;
-float myangley = 0;
-float myanglez = 0;
+float closeup = 0;
 float alt = 1;
-float myx = 0;
-float myz = 0;
 
 float angleBETA = M_PI / 4;
 float angleALFA = M_PI / 4;
@@ -151,8 +147,8 @@ void dump_to_stdout( TiXmlNode* pParent, unsigned int indent = 0 )
 }
 
 // load the named file and dump its structure to STDOUT
-void dump_to_stdout(const char* pFilename)
-{
+void dump_to_stdout(const char* pFilename){
+    puts(pFilename);
     TiXmlDocument doc(pFilename);
     bool loadOkay = doc.LoadFile();
     if (loadOkay)
@@ -211,9 +207,9 @@ void renderScene(void) {
     // set the camera
     glLoadIdentity();
 
-    float px = 18 * cos(angleBETA) * sin(angleALFA);
-    float py = 18 * sin(angleBETA);
-    float pz = 18 * cos(angleBETA) * cos(angleALFA);
+    float px = closeup * cos(angleBETA) * sin(angleALFA);
+    float py = closeup * sin(angleBETA);
+    float pz = closeup * cos(angleBETA) * cos(angleALFA);
 
     gluLookAt(px, py, pz,
               0.0, 0.0, 0.0,
@@ -231,11 +227,6 @@ void renderScene(void) {
     glVertex3f(0.0f, 0.0f, -5.0f);
     glVertex3f(0.0f, 0.0f, 5.0f);
     glEnd();
-    //geometric transformations
-    glTranslatef(myx, 0, myz);
-    glRotatef(myanglex, 1, 0, 0);
-    glRotatef(myangley, 0, 1, 0);
-    glRotatef(myanglez, 0, 0, 1);
     //para não ir para baixo
     if (alt < 0) alt = 0;
     glScalef(1, alt, 1);
@@ -257,58 +248,19 @@ void renderScene(void) {
 
 void keyboardIsPressed(unsigned char key, int x, int y) {
     switch (key) {
-        case 'a':
-            myx = myx - 0.05;
-            glutPostRedisplay();
-            break;
-        case 'd':
-            myx += 0.05;
-            glutPostRedisplay();
-            break;
-        case 'w':
-            myz -= 0.05;
-            glutPostRedisplay();
-            break;
-        case 's':
-            myz += 0.05;
-            glutPostRedisplay();
-            break;
         case 'x':
-            alt += 0.05;
+            closeup -= 0.25;
             glutPostRedisplay();
             break;
         case 'z':
-            alt -= 0.05;
-            glutPostRedisplay();
-            break;
-        case 'm':
-            myanglex += 2;
-            glutPostRedisplay();
-            break;
-        case 'n':
-            myanglex -= 2;
-            glutPostRedisplay();
-            break;
-        case 'v':
-            myangley += 2;
-            glutPostRedisplay();
-            break;
-        case 'b':
-            myangley -= 2;
-            glutPostRedisplay();
-            break;
-        case 'j':
-            myanglez += 2;
-            glutPostRedisplay();
-            break;
-        case 'k':
-            myanglez -= 2;
+            closeup += 0.25 ;
             glutPostRedisplay();
             break;
         default:
             break;
     }
 }
+
 
 
 void processSpecialKeys(int key_code, int xx, int yy) {

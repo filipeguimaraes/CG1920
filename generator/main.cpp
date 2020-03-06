@@ -97,7 +97,7 @@ void cone(char * file, float h, float r, float slices, float stacks){
     float h2;
     float r1 = r;
     float r2 = 0;
-    float angulo = (float)(2 * M_PI) / (slices+1);
+    float angulo = (float)(2 * M_PI) / (slices);
 
 
     //base

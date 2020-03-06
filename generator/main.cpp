@@ -64,44 +64,24 @@ int box(char * file_path, float x, float y, float z, int div){
     c = z/div;
     FILE * f = fopen(file_path,"w");
 
+    for (int i = 0; i < div; ++i) {
+        for (int j = 0; j < div; ++j) {
     //planos paralelos ao XZ
     //plano de cima
-    for (int i = 0; i < div; ++i) {
-        for (int j = 0; j < div; ++j) {
             planeXZ(f,-x/2+(a*i),y/2,-z/2+(c*j),a,c,REGULAR);
-        }
-    }
     //plano de baixo
-    for (int i = 0; i < div; ++i) {
-        for (int j = 0; j < div; ++j) {
             planeXZ(f,-x/2+(a*i),-y/2,-z/2+(c*j),a,c,INVERT);
-        }
-    }
 
     //planos paralelos ao XY
     //plano da frente
-    for (int i = 0; i < div; ++i) {
-        for (int j = 0; j < div; ++j) {
             planeXY(f,-x/2+(a*i),-y/2+(b*j),z/2,a,b,REGULAR);
-        }
-    }
     //plano de trás
-    for (int i = 0; i < div; ++i) {
-        for (int j = 0; j < div; ++j) {
             planeXY(f,-x/2+(a*i),-y/2+(b*j),-z/2,a,b,INVERT);
-        }
-    }
 
     //planos paralelos ao YZ
     //plano de direita
-    for (int i = 0; i < div; ++i) {
-        for (int j = 0; j < div; ++j) {
             planeYZ(f,x/2,-y/2+(b*j),-z/2+(c*i),b,c,REGULAR);
-        }
-    }
     //plano da esquerda
-    for (int i = 0; i < div; ++i) {
-        for (int j = 0; j < div; ++j) {
             planeYZ(f,-x/2,-y/2+(b*j),-z/2+(c*i),b,c,INVERT);
         }
     }
@@ -117,7 +97,7 @@ void cone(char * file, float h, float r, float slices, float stacks){
     float h2;
     float r1 = r;
     float r2 = 0;
-    float angulo = (float)(2 * M_PI) / (slices+1);
+    float angulo = (float)(2 * M_PI) / (slices);
 
 
     //base

@@ -16,7 +16,7 @@
 
 #include <math.h>
 
-float closeup = 0;
+float closeup = 10;
 float alt = 1;
 
 float angleBETA = M_PI / 4;

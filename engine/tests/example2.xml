@@ -1,0 +1,14 @@
+<scene>
+<group>
+<translate X=1 />
+<models>
+<model file="new_sphere" />
+</models>
+<group>
+<translate Y=1 />
+<models>
+<model file="new_cone" />
+</models>
+</group>
+</group>
+</scene>

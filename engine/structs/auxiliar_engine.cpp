@@ -22,7 +22,7 @@ void update_transform(TRANSFORMACAO agregado, TRANSFORMACAO transform) {
 
     for (int i = 0; i < 4; ++i)
         for (int j = 0; j < 4; ++j)
-            (*agregado).var[i][j] = agreg[i][j];
+            agregado->var[i][j] = agreg[i][j];
 }
 
 
@@ -67,14 +67,14 @@ void open_group(std::vector<int> * historico, std::vector<TRANSFORMACAO> * trans
 
 
 void close_group(std::vector<int> * historico, std::vector<TRANSFORMACAO> * transformacoes, TRANSFORMACAO agregado) {
-    while (!(*historico).empty() && (*historico)[(*historico).size() - 1] < (*transformacoes).size()) (*transformacoes).pop_back();
-    (*historico).pop_back();
+    while (!historico->empty() && (*historico)[historico->size() - 1] < transformacoes->size()) transformacoes->pop_back();
+    historico->pop_back();
     reset_transfromations(transformacoes,agregado);
 }
 
 
 void add_transform(std::vector<TRANSFORMACAO> * transformacoes, TRANSFORMACAO agregado, TRANSFORMACAO transformacao) {
-    (*transformacoes).push_back(transformacao);
+    transformacoes->push_back(transformacao);
     update_transform(agregado,transformacao);
 }
 
@@ -141,7 +141,7 @@ TRANSFORMACAO translate(double x, double y, double z){
 
 //DEBUG PRINTS
 void print_vectors(std::vector<int> * historico, std::vector<TRANSFORMACAO> * transformacoes) {
-    printf("|||||  trans: %zu    ---     hist: %zu     |||||", (*transformacoes).size(), (*historico).size());
+    printf("|||||  trans: %zu    ---     hist: %zu     |||||", transformacoes->size(), historico->size());
     printf("\n");
 }
 

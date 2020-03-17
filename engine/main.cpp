@@ -107,18 +107,8 @@ void elemento_atributos(TiXmlElement *pElement, unsigned int indent) {
         rotate_atributos(pElement->FirstAttribute(), &x, &y, &z, &angle);
 
         TRANSFORMACAO t;
-        if (x==1) {
-            t = rotationX(angle);
-            add_transform(&trans,trans_agreg,t);
-        }
-        if (y==1) {
-            t = rotationY(angle);
-            add_transform(&trans,trans_agreg,t);
-        }
-        if (z==1) {
-            t = rotationZ(angle);
-            add_transform(&trans,trans_agreg,t);
-        }
+        t = rotationVector(x,y,z,angle);
+        add_transform(&trans,trans_agreg,t);
     }
 }
 

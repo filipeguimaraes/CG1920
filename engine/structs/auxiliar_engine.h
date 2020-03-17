@@ -23,11 +23,7 @@ TRANSFORMACAO init_transform();
 
 TRANSFORMACAO scale(double x, double y, double z);
 
-TRANSFORMACAO rotationX(double angle);
-
-TRANSFORMACAO rotationY(double angle);
-
-TRANSFORMACAO rotationZ(double angle);
+TRANSFORMACAO rotationVector(double x, double y, double z, double angle);
 
 TRANSFORMACAO translate(double x, double y, double z);
 

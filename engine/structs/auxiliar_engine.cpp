@@ -100,32 +100,20 @@ TRANSFORMACAO scale(double x, double y, double z){
 }
 
 
-TRANSFORMACAO rotationX(double angle){
+TRANSFORMACAO rotationVector(double x, double y, double z, double alfa){
+    double angle = to_radial(alfa);
     TRANSFORMACAO t = init_transform();
-    t->var[1][1] = cos(to_radial(angle));
-    t->var[1][2] = -sin(to_radial(angle));
-    t->var[2][1] = sin(to_radial(angle));
-    t->var[2][2] = cos(to_radial(angle));
-    return t;
-}
+    t->var[0][0] = pow(x,2) + (1 - pow(x,2)) * cos(angle);
+    t->var[0][1] = x * y * (1 - cos(angle)) - z * sin(angle);
+    t->var[0][2] = x * z * (1 -  cos(angle)) + y * sin(angle);
 
+    t->var[1][0] = x * y * (1 - cos(angle)) + z * sin(angle);
+    t->var[1][1] = pow(y,2) + (1 - pow(y,2)) * cos(angle);
+    t->var[1][2] = y * z * (1 -  cos(angle)) - x * sin(angle);
 
-TRANSFORMACAO rotationY(double angle){
-    TRANSFORMACAO t = init_transform();
-    t->var[0][0] = cos(to_radial(angle));
-    t->var[0][2] = sin(to_radial(angle));
-    t->var[2][0] = -sin(to_radial(angle));
-    t->var[2][2] = cos(to_radial(angle));
-    return t;
-}
-
-
-TRANSFORMACAO rotationZ(double angle){
-    TRANSFORMACAO t = init_transform();
-    t->var[0][0] = cos(to_radial(angle));
-    t->var[0][1] = -sin(to_radial(angle));
-    t->var[1][0] = sin(to_radial(angle));
-    t->var[1][1] = cos(to_radial(angle));
+    t->var[2][0] = x * z * (1 -  cos(angle)) - y * sin(angle);
+    t->var[2][1] = y * z * (1 -  cos(angle)) + x * sin(angle);
+    t->var[2][2] = pow(z,2) + (1 - pow(z,2)) * cos(angle);
     return t;
 }
 

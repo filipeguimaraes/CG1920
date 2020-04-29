@@ -240,6 +240,7 @@ void renderScene(void) {
     glPolygonMode(GL_FRONT, GL_LINE);
     glBegin(GL_TRIANGLES);
 
+    glColor3f(1,1,1);
     draw_from_vector();
 
     glEnd();

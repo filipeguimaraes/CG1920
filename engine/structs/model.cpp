@@ -39,18 +39,18 @@ void init_vbo_model(MODEL m) {
 
 
 void draw_model(MODEL m, TRANSFORMACAO t) {
-    /*int k = m->pontos->size();
+    int k = m->pontos->size();
 
     for (int j = 0; j < k; j+=3) {
         PONTO p;
         set_ponto(&p, (*(m->pontos))[j], (*(m->pontos))[j+1], (*(m->pontos))[j+2]);
-        point_transforms_total(&p, t);
+        //point_transforms_total(&p, t);
         glVertex3f(p.var[0],p.var[1],p.var[2]);
     }
-    */
 
+/*
     glBindBuffer(GL_ARRAY_BUFFER,m->vertexBuffer[0]);
     glVertexPointer(3,GL_FLOAT,0, nullptr);
 
     glDrawArrays(GL_TRIANGLES, 0, m->pontos->size());
-}
+*/}

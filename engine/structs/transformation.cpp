@@ -38,7 +38,7 @@ void point_transforms_total(PONTO * p, TRANSFORMACAO agregado) {
 }
 
 float * get_matrix(TRANSFORMACAO t) {
-    return (float *) *t->var;
+    return (float *) t->var;
 }
 
 

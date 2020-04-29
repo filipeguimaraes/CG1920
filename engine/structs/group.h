@@ -14,6 +14,8 @@ void add_group(GROUP g, GROUP g_add);
 
 void add_transformation(GROUP g, TRANSFORMACAO t_add);
 
+void init_vbo_group (GROUP g);
+
 void draw_group(GROUP g, TRANSFORMACAO ta);
 
 #endif //ENGINE_GROUP_H

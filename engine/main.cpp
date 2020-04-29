@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <GL/glew.h>
 
 #ifdef __APPLE__
 #include <GLUT/glut.h>
@@ -12,9 +13,7 @@
 #include "tinyxml/tinyxml.h"
 #include "structs/group.h"
 
-#include <vector>
 #include <iostream>
-
 #include <math.h>
 
 float closeup = 10;
@@ -25,9 +24,9 @@ float angleALFA = M_PI / 4;
 
 
 
-GROUP global_group = init_group();
+GROUP global_group = NULL;
 
-GROUP ps_group;
+GROUP ps_group = NULL;
 
 
 void read_file_points(const char *file) {
@@ -163,7 +162,7 @@ void parse_xml_nodes(TiXmlNode *pParent, unsigned int indent = 0) {
 }
 
 
-void dump_to_stdout(const char *pFilename) {
+void load_file(const char *pFilename) {
     TiXmlDocument doc(pFilename);
     bool loadOkay = doc.LoadFile();
     if (loadOkay) {
@@ -278,19 +277,23 @@ void processSpecialKeys(int key_code, int xx, int yy) {
     glutPostRedisplay();
 }
 
-int lol = 0;
+void init(const char *file) {
+    if (!global_group ) {
+        #ifndef __APPLE__
+        glewInit();
+        #endif
+        glEnableClientState(GL_VERTEX_ARRAY);
 
-void load_file(const char *file) {
-    if (!lol ) {
-        lol = 1;ps_group = global_group;
+        global_group = init_group();
+        ps_group = global_group;
 
-        dump_to_stdout(file);
-        puts("DEBUG DUMP STDOUT");
+        load_file(file);
+
+        init_vbo_group(global_group);
     }
 }
 
 int main(int argc, char **argv) {
-    if (argc > 1) load_file(argv[1]);
 
 // init GLUT and the window
     glutInit(&argc, argv);
@@ -298,6 +301,8 @@ int main(int argc, char **argv) {
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(800, 800);
     glutCreateWindow("CG@DI-UM");
+
+    if (argc > 1) init(argv[1]);
 
 // Required callback registry
     glutDisplayFunc(renderScene);

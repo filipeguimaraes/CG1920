@@ -37,6 +37,10 @@ void point_transforms_total(PONTO * p, TRANSFORMACAO agregado) {
         p->var[i] = np.var[i];
 }
 
+float * get_matrix(TRANSFORMACAO t) {
+    return (float *) *t->var;
+}
+
 
 void set_matriz_id(TRANSFORMACAO mat) {
     for (int i = 0; i < 4; ++i)

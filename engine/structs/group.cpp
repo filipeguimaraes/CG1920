@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <cstdlib>
+#include <GL/gl.h>
 #include "group.h"
 #include "model.h"
 #include "transformation.h"
@@ -50,17 +51,33 @@ TRANSFORMACAO agreg_tranforms(GROUP g, TRANSFORMACAO ta) {
     return t;
 }
 
-void draw_group(GROUP g, TRANSFORMACAO ta) {
-    TRANSFORMACAO t;
-    if (ta == nullptr) t = init_transform();
-    else t = agreg_tranforms(g, ta);
+void init_vbo_group (GROUP g) {
+    for(MODEL m : *(g->models)) {
+        init_vbo_model(m);
+    }
 
-    for(MODEL m: *(g->models)) {
+    for(GROUP child_group : *(g->sub_group)) {
+        init_vbo_group(child_group);
+    }
+}
+
+void draw_group (GROUP g, TRANSFORMACAO ta) {
+    TRANSFORMACAO t;
+
+    t = ta == nullptr ? init_transform() : agreg_tranforms(g, ta);
+
+    glPushMatrix();
+
+    glMultMatrixf(get_matrix(t));
+
+    for(MODEL m : *(g->models)) {
         draw_model(m, t);
     }
 
     for(GROUP child_group : *(g->sub_group)) {
         draw_group(child_group, t);
     }
+
+    glPopMatrix();
 }
 

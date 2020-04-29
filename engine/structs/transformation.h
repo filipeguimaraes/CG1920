@@ -9,6 +9,9 @@ typedef struct ponto_3d {
 
 typedef struct transformacao_3d * TRANSFORMACAO;
 
+
+float * get_matrix(TRANSFORMACAO t);
+
 void set_ponto(PONTO * p, float x, float y, float z);
 
 void point_transforms_total(PONTO *p, TRANSFORMACAO pt);

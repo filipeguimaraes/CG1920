@@ -57,24 +57,26 @@ void file_atributos(TiXmlAttribute * pAttrib, char ** file) {
 }
 
 
-void scale_translate_atributos(TiXmlAttribute *pAttrib, double *x, double *y, double *z) {
-    *x = *y = *z = 0;
+void scale_translate_atributos(TiXmlAttribute *pAttrib, double *x, double *y, double *z, double *t) {
+    *t = *x = *y = *z = 0;
     while (pAttrib) {
-        if (!strcmp(pAttrib->Name(), "X")) pAttrib->QueryDoubleValue(x); else
-        if (!strcmp(pAttrib->Name(), "Y")) pAttrib->QueryDoubleValue(y); else
-        if (!strcmp(pAttrib->Name(), "Z")) pAttrib->QueryDoubleValue(z);
+        if (!strcmp(pAttrib->Name(), "X")    && pAttrib->QueryDoubleValue(x) == TIXML_SUCCESS) ; else
+        if (!strcmp(pAttrib->Name(), "Y")    && pAttrib->QueryDoubleValue(y) == TIXML_SUCCESS) ; else
+        if (!strcmp(pAttrib->Name(), "Z")    && pAttrib->QueryDoubleValue(z) == TIXML_SUCCESS) ; else
+        if (!strcmp(pAttrib->Name(), "time") && pAttrib->QueryDoubleValue(t) == TIXML_SUCCESS) ;
         pAttrib = pAttrib->Next();
     }
 }
 
 
-void rotate_atributos(TiXmlAttribute *pAttrib, double *x, double *y, double *z, double *a) {
-    *a = *x = *y = *z = 0;
+void rotate_atributos(TiXmlAttribute *pAttrib, double *x, double *y, double *z, double *a, double *t) {
+    *t = *a = *x = *y = *z = 0;
     while (pAttrib) {
         if (!strcmp(pAttrib->Name(), "axisX") && pAttrib->QueryDoubleValue(x) == TIXML_SUCCESS); else
         if (!strcmp(pAttrib->Name(), "axisY") && pAttrib->QueryDoubleValue(y) == TIXML_SUCCESS); else
         if (!strcmp(pAttrib->Name(), "axisZ") && pAttrib->QueryDoubleValue(z) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "angle") && pAttrib->QueryDoubleValue(a) == TIXML_SUCCESS);
+        if (!strcmp(pAttrib->Name(), "angle") && pAttrib->QueryDoubleValue(a) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "time" ) && pAttrib->QueryDoubleValue(t) == TIXML_SUCCESS);
         pAttrib = pAttrib->Next();
     }
 }
@@ -89,25 +91,24 @@ void elemento_atributos(TiXmlElement *pElement, unsigned int indent) {
         read_file_points(file);
 
     } else if (!strcmp(pElement->Value(), "scale")) {
-        double x, y, z;
-        scale_translate_atributos(pElement->FirstAttribute(),&x,&y,&z);
+        double x, y, z, time;
+        scale_translate_atributos(pElement->FirstAttribute(), &x, &y, &z, &time);
 
         TRANSFORMACAO t = scale(x,y,z);
         add_transform(&trans,trans_agreg,t);
 
     } else if (!strcmp(pElement->Value(), "translate")) {
-        double x, y, z;
-        scale_translate_atributos(pElement->FirstAttribute(), &x, &y, &z);
+        double x, y, z, time;
+        scale_translate_atributos(pElement->FirstAttribute(), &x, &y, &z, &time);
 
         TRANSFORMACAO t = translate(x,y,z);
         add_transform(&trans,trans_agreg,t);
 
     } else if (!strcmp(pElement->Value(), "rotate")) {
-        double x, y, z, angle;
-        rotate_atributos(pElement->FirstAttribute(), &x, &y, &z, &angle);
+        double x, y, z, angle, time;
+        rotate_atributos(pElement->FirstAttribute(), &x, &y, &z, &angle, &time);
 
-        TRANSFORMACAO t;
-        t = rotationVector(x,y,z,angle);
+        TRANSFORMACAO t = rotationVector(x,y,z,angle);
         add_transform(&trans,trans_agreg,t);
     }
 }

@@ -6,7 +6,7 @@ set(PROJECT_NAME engine)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-add_executable(${PROJECT_NAME} main.cpp structs/auxiliar_engine.cpp structs/auxiliar_engine.h tinyxml/tinyxml.cpp tinyxml/tinystr.cpp tinyxml/tinyxmlerror.cpp tinyxml/tinyxmlparser.cpp)
+add_executable(${PROJECT_NAME} main.cpp structs/transformation.cpp structs/transformation.h tinyxml/tinyxml.cpp tinyxml/tinystr.cpp tinyxml/tinyxmlerror.cpp tinyxml/tinyxmlparser.cpp structs/group.cpp structs/model.cpp structs/model.h structs/group.h)
 
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})

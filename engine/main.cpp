@@ -8,8 +8,9 @@
 
 #endif
 
-#include "structs/auxiliar_engine.h"
+#include "structs/transformation.h"
 #include "tinyxml/tinyxml.h"
+#include "structs/group.h"
 
 #include <vector>
 #include <iostream>
@@ -23,27 +24,28 @@ float angleBETA = M_PI / 4;
 float angleALFA = M_PI / 4;
 
 
-std::vector<PONTO> pontos;
 
+GROUP global_group = init_group();
 
-std::vector<TRANSFORMACAO> trans;
-std::vector<int> hist;
-
-TRANSFORMACAO trans_agreg = init_transform();
+GROUP ps_group;
 
 
 void read_file_points(const char *file) {
+    MODEL m = init_model();
+    add_model(ps_group, m);
+
+
     printf("loading solid: %s\n", file);
     FILE *f;
     float x, y, z;
     f = fopen(file, "r");
+    int i=0;
     while (!feof(f) && fscanf(f, "%f, %f, %f\n", &x, &y, &z)) {
-        PONTO p;
-        set_ponto(&p, x, y, z);
 
-        point_transforms_total(&p,trans_agreg);
+        add_vertice(m, x);
+        add_vertice(m, y);
+        add_vertice(m, z);
 
-        pontos.push_back(p);
     }
     fclose(f);
 }
@@ -60,10 +62,10 @@ void file_atributos(TiXmlAttribute * pAttrib, char ** file) {
 void scale_translate_atributos(TiXmlAttribute *pAttrib, double *x, double *y, double *z, double *t) {
     *t = *x = *y = *z = 0;
     while (pAttrib) {
-        if (!strcmp(pAttrib->Name(), "X")    && pAttrib->QueryDoubleValue(x) == TIXML_SUCCESS) ; else
-        if (!strcmp(pAttrib->Name(), "Y")    && pAttrib->QueryDoubleValue(y) == TIXML_SUCCESS) ; else
-        if (!strcmp(pAttrib->Name(), "Z")    && pAttrib->QueryDoubleValue(z) == TIXML_SUCCESS) ; else
-        if (!strcmp(pAttrib->Name(), "time") && pAttrib->QueryDoubleValue(t) == TIXML_SUCCESS) ;
+        if (!strcmp(pAttrib->Name(), "X")    && pAttrib->QueryDoubleValue(x) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "Y")    && pAttrib->QueryDoubleValue(y) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "Z")    && pAttrib->QueryDoubleValue(z) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "time") && pAttrib->QueryDoubleValue(t) == TIXML_SUCCESS);
         pAttrib = pAttrib->Next();
     }
 }
@@ -75,8 +77,7 @@ void rotate_atributos(TiXmlAttribute *pAttrib, double *x, double *y, double *z, 
         if (!strcmp(pAttrib->Name(), "axisX") && pAttrib->QueryDoubleValue(x) == TIXML_SUCCESS); else
         if (!strcmp(pAttrib->Name(), "axisY") && pAttrib->QueryDoubleValue(y) == TIXML_SUCCESS); else
         if (!strcmp(pAttrib->Name(), "axisZ") && pAttrib->QueryDoubleValue(z) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "angle") && pAttrib->QueryDoubleValue(a) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "time" ) && pAttrib->QueryDoubleValue(t) == TIXML_SUCCESS);
+        if (!strcmp(pAttrib->Name(), "time")  && pAttrib->QueryDoubleValue(t) == TIXML_SUCCESS);
         pAttrib = pAttrib->Next();
     }
 }
@@ -95,21 +96,21 @@ void elemento_atributos(TiXmlElement *pElement, unsigned int indent) {
         scale_translate_atributos(pElement->FirstAttribute(), &x, &y, &z, &time);
 
         TRANSFORMACAO t = scale(x,y,z);
-        add_transform(&trans,trans_agreg,t);
+        add_transformation(ps_group, t);
 
     } else if (!strcmp(pElement->Value(), "translate")) {
         double x, y, z, time;
         scale_translate_atributos(pElement->FirstAttribute(), &x, &y, &z, &time);
 
         TRANSFORMACAO t = translate(x,y,z);
-        add_transform(&trans,trans_agreg,t);
+        add_transformation(ps_group, t);
 
     } else if (!strcmp(pElement->Value(), "rotate")) {
         double x, y, z, angle, time;
         rotate_atributos(pElement->FirstAttribute(), &x, &y, &z, &angle, &time);
 
         TRANSFORMACAO t = rotationVector(x,y,z,angle);
-        add_transform(&trans,trans_agreg,t);
+        add_transformation(ps_group, t);
     }
 }
 
@@ -117,8 +118,14 @@ void elemento_atributos(TiXmlElement *pElement, unsigned int indent) {
 void parse_xml_nodes(TiXmlNode *pParent, unsigned int indent = 0) {
     if (!pParent) return;
 
+    GROUP last = ps_group;
+
     TiXmlNode *pChild;
-    if(!strcmp(pParent->Value(),"group")) open_group(&hist,&trans,trans_agreg);
+    if(!strcmp(pParent->Value(),"group")) {
+        GROUP g = init_group();
+        add_group(ps_group, g);
+        ps_group = g;
+    }
     else{
         int t = pParent->Type();
 
@@ -150,7 +157,9 @@ void parse_xml_nodes(TiXmlNode *pParent, unsigned int indent = 0) {
         parse_xml_nodes(pChild, indent + 1);
     }
 
-    if(!strcmp(pParent->Value(),"group")) close_group(&hist,&trans,trans_agreg);
+    if(!strcmp(pParent->Value(),"group")) {
+        ps_group = last;
+    }
 }
 
 
@@ -192,11 +201,7 @@ void changeSize(int w, int h) {
 
 
 void draw_from_vector() {
-    int k = pontos.size();
-    glColor3f(1, 1, 1);
-    for (int j = 0; j < k; ++j) {
-        glVertex3f(pontos[j].var[0], pontos[j].var[1], pontos[j].var[2]);
-    }
+    draw_group(global_group, nullptr);
 }
 
 
@@ -273,9 +278,14 @@ void processSpecialKeys(int key_code, int xx, int yy) {
     glutPostRedisplay();
 }
 
+int lol = 0;
+
 void load_file(const char *file) {
-    if (pontos.empty()) {
+    if (!lol ) {
+        lol = 1;ps_group = global_group;
+
         dump_to_stdout(file);
+        puts("DEBUG DUMP STDOUT");
     }
 }
 

@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstdlib>
 #include <GL/gl.h>
+#include <GL/glut.h>
 #include "group.h"
 #include "model.h"
 #include "transformation.h"
@@ -61,14 +62,20 @@ void init_vbo_group (GROUP g) {
     }
 }
 
+void lol(GROUP g){
+    for (TRANSFORMACAO t: *(g->transforms))
+        glMultMatrixf(get_matrix(t));
+}
+
 void draw_group (GROUP g, TRANSFORMACAO ta) {
     TRANSFORMACAO t;
 
-    t = ta == nullptr ? init_transform() : agreg_tranforms(g, ta);
+    //t = ta == nullptr ? init_transform() : agreg_tranforms(g, ta);
 
     glPushMatrix();
 
-    glMultMatrixf(get_matrix(t));
+    //glMultMatrixf(get_matrix(t));
+    lol(g);
 
     for(MODEL m : *(g->models)) {
         draw_model(m, t);

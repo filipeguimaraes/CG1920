@@ -76,6 +76,7 @@ void rotate_atributos(TiXmlAttribute *pAttrib, double *x, double *y, double *z, 
         if (!strcmp(pAttrib->Name(), "axisX") && pAttrib->QueryDoubleValue(x) == TIXML_SUCCESS); else
         if (!strcmp(pAttrib->Name(), "axisY") && pAttrib->QueryDoubleValue(y) == TIXML_SUCCESS); else
         if (!strcmp(pAttrib->Name(), "axisZ") && pAttrib->QueryDoubleValue(z) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "angle") && pAttrib->QueryDoubleValue(a) == TIXML_SUCCESS); else
         if (!strcmp(pAttrib->Name(), "time")  && pAttrib->QueryDoubleValue(t) == TIXML_SUCCESS);
         pAttrib = pAttrib->Next();
     }
@@ -238,12 +239,11 @@ void renderScene(void) {
 
     //drawing instructions
     glPolygonMode(GL_FRONT, GL_LINE);
-    glBegin(GL_TRIANGLES);
+
 
     glColor3f(1,1,1);
-    draw_from_vector();
 
-    glEnd();
+    draw_from_vector();
 
     // End of frame
     glutSwapBuffers();

@@ -3,7 +3,7 @@
 #include <vector>
 #include <cstdlib>
 #include <GL/gl.h>
-#include <GL/glut.h>
+#include <cstdio>
 #include "group.h"
 #include "model.h"
 #include "transformation.h"
@@ -26,11 +26,13 @@ GROUP init_group() {
     return g;
 }
 
+
 void add_model(GROUP g, MODEL m_add) {
     if (g) {
         g->models->push_back(m_add);
     }
 }
+
 
 void add_group(GROUP g, GROUP g_add) {
     if (g) {
@@ -38,19 +40,13 @@ void add_group(GROUP g, GROUP g_add) {
     }
 }
 
+
 void add_transformation(GROUP g, TRANSFORMACAO t_add) {
     if (g) {
         g->transforms->push_back(t_add);
     }
 }
 
-TRANSFORMACAO agreg_tranforms(GROUP g, TRANSFORMACAO ta) {
-    TRANSFORMACAO t = init_transform();
-    update_transform(t,ta);
-    for (TRANSFORMACAO trans: *(g->transforms))
-        update_transform(t, trans);
-    return t;
-}
 
 void init_vbo_group (GROUP g) {
     for(MODEL m : *(g->models)) {
@@ -62,27 +58,26 @@ void init_vbo_group (GROUP g) {
     }
 }
 
-void lol(GROUP g){
-    for (TRANSFORMACAO t: *(g->transforms))
+
+void apply_transforms(GROUP g){
+    for (TRANSFORMACAO t: *(g->transforms)) {
         glMultMatrixf(get_matrix(t));
+    }
 }
 
-void draw_group (GROUP g, TRANSFORMACAO ta) {
-    TRANSFORMACAO t;
 
-    //t = ta == nullptr ? init_transform() : agreg_tranforms(g, ta);
-
+void draw_group (GROUP g) {
     glPushMatrix();
 
-    //glMultMatrixf(get_matrix(t));
-    lol(g);
+    apply_transforms(g);
+
 
     for(MODEL m : *(g->models)) {
-        draw_model(m, t);
+        draw_model(m);
     }
 
     for(GROUP child_group : *(g->sub_group)) {
-        draw_group(child_group, t);
+        draw_group(child_group);
     }
 
     glPopMatrix();

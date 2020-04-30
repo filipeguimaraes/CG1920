@@ -28,8 +28,14 @@ TRANSFORMACAO init_transform();
 
 TRANSFORMACAO scale(double x, double y, double z);
 
-TRANSFORMACAO rotationVector(double x, double y, double z, double angle);
+TRANSFORMACAO rotation(double x, double y, double z, double angle);
 
 TRANSFORMACAO translate(double x, double y, double z);
+
+TRANSFORMACAO rotation_time(double x, double y, double z, double time);
+
+TRANSFORMACAO translate_time(double time);
+
+void add_vertice_translate(TRANSFORMACAO t, double x, double y, double z);
 
 #endif //__AUXILIAR_ENGINE_H__

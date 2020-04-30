@@ -12,6 +12,6 @@ void add_vertice(MODEL m, float v);
 
 void init_vbo_model(MODEL m);
 
-void draw_model(MODEL m, TRANSFORMACAO t);
+void draw_model(MODEL m);
 
 #endif //ENGINE_MODEL_H

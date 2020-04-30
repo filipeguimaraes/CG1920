@@ -28,6 +28,7 @@ GROUP global_group = NULL;
 
 GROUP ps_group = NULL;
 
+TRANSFORMACAO ps_translate = NULL;
 
 void read_file_points(const char *file) {
     MODEL m = init_model();
@@ -91,26 +92,51 @@ void elemento_atributos(TiXmlElement *pElement, unsigned int indent) {
         file_atributos(pElement->FirstAttribute(), &file);
         read_file_points(file);
 
-    } else if (!strcmp(pElement->Value(), "scale")) {
+    }
+
+    else if (!strcmp(pElement->Value(), "scale")) {
         double x, y, z, time;
         scale_translate_atributos(pElement->FirstAttribute(), &x, &y, &z, &time);
 
         TRANSFORMACAO t = scale(x,y,z);
         add_transformation(ps_group, t);
 
-    } else if (!strcmp(pElement->Value(), "translate")) {
+    }
+
+    else if (!strcmp(pElement->Value(), "translate")) {
         double x, y, z, time;
         scale_translate_atributos(pElement->FirstAttribute(), &x, &y, &z, &time);
 
-        TRANSFORMACAO t = translate(x,y,z);
-        add_transformation(ps_group, t);
+        if (time > 0) {
+            TRANSFORMACAO t = translate_time(time);
+            add_transformation(ps_group, t);
+            ps_translate = t;
+        }
+        else {
+            TRANSFORMACAO t = translate(x,y,z);
+            add_transformation(ps_group, t);
+        }
+    }
 
-    } else if (!strcmp(pElement->Value(), "rotate")) {
+    else if (!strcmp(pElement->Value(), "rotate")) {
         double x, y, z, angle, time;
         rotate_atributos(pElement->FirstAttribute(), &x, &y, &z, &angle, &time);
 
-        TRANSFORMACAO t = rotationVector(x,y,z,angle);
-        add_transformation(ps_group, t);
+        if (time > 0) {
+            TRANSFORMACAO t = rotation_time(x,y,z,time);
+            add_transformation(ps_group, t);
+        }
+        else {
+            TRANSFORMACAO t = rotation(x,y,z,angle);
+            add_transformation(ps_group, t);
+        }
+    }
+
+    else if (ps_translate && !strcmp(pElement->Value(), "point")) {
+        double x, y, z, time;
+        scale_translate_atributos(pElement->FirstAttribute(), &x, &y, &z, &time);
+
+        add_vertice_translate(ps_translate,x,y,z);
     }
 }
 
@@ -160,6 +186,10 @@ void parse_xml_nodes(TiXmlNode *pParent, unsigned int indent = 0) {
     if(!strcmp(pParent->Value(),"group")) {
         ps_group = last;
     }
+    else if (!strcmp(pParent->Value(),"translate")) {
+        ps_translate = NULL;
+    }
+
 }
 
 
@@ -201,7 +231,7 @@ void changeSize(int w, int h) {
 
 
 void draw_from_vector() {
-    draw_group(global_group, nullptr);
+    draw_group(global_group);
 }
 
 
@@ -309,6 +339,7 @@ int main(int argc, char **argv) {
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);
 
+    glutIdleFunc(renderScene);
 
 // put here the registration of the keyboard callbacks
     glutKeyboardFunc(keyboardIsPressed);

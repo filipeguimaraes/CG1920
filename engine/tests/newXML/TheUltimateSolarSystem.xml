@@ -1,0 +1,136 @@
+<scene>
+      <group>
+            <!-- Sun -->
+            <models>
+                  <model file="sphere.3d" />
+            </models>
+            <group>
+                  <!-- Mercury -->
+                  <translate time="879600">
+                        <point X="0.0" Y="0.000000" Z="46.0012000" />
+                        <point X="69.816900" Y="0.000000" Z="0.0" />
+                        <point X="0.0" Y="0.000000" Z="-46.0012000" />
+                        <point X="-69.816900" Y="0.000000" Z="0.0" />
+                  </translate>
+                  <scale X="0.10" Y="0.10" Z="0.10" />
+                  <rotate axisX="0.0" axisY="0.0" axisZ="1.0" angle="0.0" />
+                  <models>
+                        <model file="sphere.3d" />
+                  </models>
+            </group>
+            <group>
+                  <!-- Venus -->
+                  <translate time="2247000">
+                        <point X="0.0" Y="0.000000" Z="107.476000" />
+                        <point X="108.942000" Y="0.000000" Z="0.0" />
+                        <point X="0.0" Y="0.000000" Z="-107.476000" />
+                        <point X="-108.942000" Y="0.000000" Z="0.0" />
+                  </translate>
+                  <scale X="0.14" Y="0.14" Z="0.14" />
+                  <rotate axisX="0.0" axisY="0.0" axisZ="1.0" angle="177.4" />
+                  <models>
+                        <model file="sphere.3d" />
+                  </models>
+            </group>
+            <group>
+                  <!-- Terra -->
+                  <translate time="3652560">
+                        <point X="0.0" Y="0.000000" Z="147.098290" />
+                        <point X="152.098232" Y="0.000000" Z="0.0" />
+                        <point X="0.0" Y="0.000000" Z="-147.098290" />
+                        <point X="-152.098232" Y="0.000000" Z="0.0" />
+                  </translate>
+                  <scale X="0.15" Y="0.15" Z="0.15" />
+                  <rotate axisX="0.0" axisY="0.0" axisZ="1.0" angle="23.45" />
+                  <models>
+                        <model file="sphere.3d" />
+                  </models>
+                  <group>
+                        <!-- Lua -->
+                        <rotate axisX="0.0" axisY="0.0" axisZ="1.0" angle="-23.45" />
+                        <translate time="2732160">
+                              <point X="0.0" Y="0.000000" Z="40.5696 " />
+                              <point X="36.3104" Y="0.000000" Z="0.0" />
+                              <point X="0.0" Y="0.000000" Z="-40.5696" />
+                              <point X="-36.3104" Y="0.000000" Z="0.0" />
+                        </translate>
+                        <scale X="0.3" Y="0.3" Z="0.3" />
+                        <models>
+                              <model file="sphere.3d" />
+                        </models>
+                  </group>
+            </group>
+            <group>
+                  <!-- Marte -->
+                  <translate time="2869710">
+                        <point X="0.0" Y="0.000000" Z="206.669000" />
+                        <point X="249.209300" Y="0.000000" Z="0.0" />
+                        <point X="0.0" Y="0.000000" Z="-206.669000" />
+                        <point X="-249.209300" Y="0.000000" Z="0.0" />
+                  </translate>
+                  <scale X="0.6" Y="0.6" Z="0.6" />
+                  <rotate axisX="0.0" axisY="0.0" axisZ="1.0" angle="23.98" />
+                  <models>
+                        <model file="sphere.3d" />
+                  </models>
+            </group>
+            <group>
+                  <!-- Jupiter -->
+                  <translate time="2869710">
+                        <point X="0.0" Y="0.000000" Z="306.669000" />
+                        <point X="349.209300" Y="0.000000" Z="0.0" />
+                        <point X="0.0" Y="0.000000" Z="-306.669000" />
+                        <point X="-349.209300" Y="0.000000" Z="0.0" />
+                  </translate>
+                  <scale X="0.4" Y="0.4" Z="0.4" />
+                  <rotate axisX="0.0" axisY="0.0" axisZ="1.0" angle="3.08" />
+                  <models>
+                        <model file="sphere.3d" />
+                  </models>
+            </group>
+            <group>
+                  <!-- Saturno -->
+                  <translate time="10759220">
+                        <point X="0.0" Y="0.000000" Z="406.669000" />
+                        <point X="449.209300" Y="0.000000" Z="0.0" />
+                        <point X="0.0" Y="0.000000" Z="-406.669000" />
+                        <point X="-449.209300" Y="0.000000" Z="0.0" />
+                  </translate>
+                  <translate X="71.70" Z="0" />
+                  <scale X="0.35" Y="0.35" Z="0.35" />
+                  <rotate axisX="0.0" axisY="0.0" axisZ="1.0" angle="26.73" />
+                  <models>
+                        <model file="sphere.3d" />
+                  </models>
+            </group>
+            <group>
+                  <!-- Urano -->
+                  <translate time="30799095">
+                        <point X="0.0" Y="0.000000" Z="506.669000" />
+                        <point X="549.209300" Y="0.000000" Z="0.0" />
+                        <point X="0.0" Y="0.000000" Z="-506.669000" />
+                        <point X="-549.209300" Y="0.000000" Z="0.0" />
+                  </translate>
+                  <scale X="0.20" Y="0.20" Z="0.20" />
+                  <rotate axisX="0.0" axisY="0.0" axisZ="1.0" angle="97.92" />
+                  <models>
+                        <model file="sphere.3d" />
+                  </models>
+            </group>
+            <group>
+                  <!-- Neptuno -->
+                  <translate time="6019003">
+                        <point X="0.0" Y="0.000000" Z="606.669000" />
+                        <point X="649.209300" Y="0.000000" Z="0.0" />
+                        <point X="0.0" Y="0.000000" Z="-606.669000" />
+                        <point X="-649.209300" Y="0.000000" Z="0.0" />
+                  </translate>
+                  <scale X="0.27" Y="0.27" Z="0.27" />
+                  <rotate axisX="0.0" axisY="0.0" axisZ="1.0" angle="29.96" />
+                  <models>
+                        <model file="sphere.3d" />
+                  </models>
+            </group>
+      </group>
+</scene>
+

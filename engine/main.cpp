@@ -12,17 +12,8 @@
 #include "structs/transformation.h"
 #include "tinyxml/tinyxml.h"
 #include "structs/group.h"
-
+#include "mouse/mouse.h"
 #include <iostream>
-#include <math.h>
-
-float closeup = 10;
-float alt = 1;
-
-float angleBETA = M_PI / 4;
-float angleALFA = M_PI / 4;
-
-
 
 GROUP global_group = NULL;
 
@@ -242,16 +233,11 @@ void renderScene(void) {
 
     // set the camera
     glLoadIdentity();
-
-    float px = closeup * cos(angleBETA) * sin(angleALFA);
-    float py = closeup * sin(angleBETA);
-    float pz = closeup * cos(angleBETA) * cos(angleALFA);
-
-    gluLookAt(px, py, pz,
+    gluLookAt(getCamX(), getCamY(), getCamZ(),
               0.0, 0.0, 0.0,
               0.0f, 1.0f, 0.0f);
 
-
+/*
     glBegin(GL_LINES);
     glColor3f(0, 0, 1.0f);
     glVertex3f(-5.0f, 0.0f, 0.0f);
@@ -263,14 +249,11 @@ void renderScene(void) {
     glVertex3f(0.0f, 0.0f, -5.0f);
     glVertex3f(0.0f, 0.0f, 5.0f);
     glEnd();
-    //para não ir para baixo
-    if (alt < 0) alt = 0;
-    glScalef(1, alt, 1);
-
+*/
     //drawing instructions
     glPolygonMode(GL_FRONT, GL_LINE);
 
-
+    
     glColor3f(1,1,1);
 
     draw_from_vector();
@@ -279,34 +262,6 @@ void renderScene(void) {
     glutSwapBuffers();
 }
 
-// write function to process keyboard events
-
-
-void keyboardIsPressed(unsigned char key, int x, int y) {
-    switch (key) {
-        case 'x':
-            closeup -= 0.25;
-            glutPostRedisplay();
-            break;
-        case 'z':
-            closeup += 0.25;
-            glutPostRedisplay();
-            break;
-        default:
-            break;
-    }
-}
-
-
-void processSpecialKeys(int key_code, int xx, int yy) {
-    //permite ter explorer mode camera
-    if (key_code == GLUT_KEY_LEFT) angleALFA += -0.1;
-    if (key_code == GLUT_KEY_RIGHT) angleALFA += 0.1;
-    if (key_code == GLUT_KEY_DOWN && (angleBETA - 0.1) > -M_PI / 2) angleBETA += -0.1;
-    if (key_code == GLUT_KEY_UP && (angleBETA + 0.1) < M_PI / 2) angleBETA += 0.1;
-
-    glutPostRedisplay();
-}
 
 void init(const char *file) {
     if (!global_group ) {
@@ -338,12 +293,13 @@ int main(int argc, char **argv) {
 // Required callback registry
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);
-
     glutIdleFunc(renderScene);
 
-// put here the registration of the keyboard callbacks
-    glutKeyboardFunc(keyboardIsPressed);
-    glutSpecialFunc(processSpecialKeys);
+
+//registration of the mouse (functions in mouse.h)
+    glutMouseFunc(processMouseButtons);
+    glutMotionFunc(processMouseMotion);
+
 
 //  OpenGL settings
     glEnable(GL_DEPTH_TEST);

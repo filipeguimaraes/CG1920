@@ -1,3 +1,0 @@
-/MyStuff/UM/Informática/3º Ano/2ºSemestre/CG/Pratical Assigment/Engine/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/MyStuff/UM/Informática/3º Ano/2ºSemestre/CG/Pratical Assigment/Engine/cmake-build-debug/CMakeFiles/edit_cache.dir
-/MyStuff/UM/Informática/3º Ano/2ºSemestre/CG/Pratical Assigment/Engine/cmake-build-debug/CMakeFiles/class3.dir

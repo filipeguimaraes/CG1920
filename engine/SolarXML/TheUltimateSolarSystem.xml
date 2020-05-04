@@ -5,6 +5,20 @@
                   <model file="sphere.3d" />
             </models>
             <group>
+                  <!-- Cometa -->
+                  <translate time="10000000">
+                        <point X="-20" Y="0" Z="-20" />
+                        <point X="-20" Y="0" Z="20" />
+                        <point X="20" Y="0" Z="20" />
+                        <point X="10" Y="0" Z="0" />
+                        <point X="20" Y="0" Z="-20" />
+                  </translate >
+                  <scale X="0.40" Y="0.40" Z="0.40" />
+                  <models>
+                        <model file="teapotBezier.3d" />
+                  </models>
+            </group>
+            <group>
                   <!-- Mercurio-->
                   <translate time="879690.02">
                         <point X="6.981690" Y="0.000000" Z="0.000000" />
@@ -17,7 +31,7 @@
                         <point X="3.841274" Y="0.000000" Z="3.841274" />
                   </translate >
                   <scale X="0.20" Y="0.20" Z="0.20" />
-                  <rotate axisX="0.0" axisY="1.0" axisZ="0.0" time="14070000" />
+                  <rotate axisX="0.0" axisY="1.0" axisZ="0.1" time="14070000" />
                   <models>
                         <model file="sphere.3d" />
                   </models>
@@ -35,7 +49,7 @@
                         <point X="7.651005" Y="0.000000" Z="7.651005" />
                   </translate >
                   <scale X="0.35" Y="0.35" Z="0.35" />
-                  <rotate axisX="0.0" axisY="1.0" axisZ="0.0" time="240000" />
+                  <rotate axisX="0.0" axisY="1.0" axisZ="0.2" time="240000" />
                   <models>
                         <model file="sphere.3d" />
                   </models>
@@ -52,7 +66,7 @@
                         <point X="0.000000" Y="0.000000" Z="14.709829" />
                         <point X="10.573764" Y="0.000000" Z="10.573765" />
                   </translate >
-                  <rotate axisX="0.0" axisY="1.0" axisZ="0.0" time="240000" />
+                  <rotate axisX="0.0" axisY="1.0" axisZ="0.3" time="240000" />
                   <scale X="0.40" Y="0.40" Z="0.40" />
                   <models>
                         <model file="sphere.3d" />
@@ -61,10 +75,14 @@
                         <!-- Lua -->
                         <!--rotate axisX="0.0" axisY="0.0" axisZ="1.0" angle="-23.45" -->
                         <translate time="2732100">
-                              <point X="5.000000" Y="0.000000" Z="0.000000" />
-                              <point X="0.0" Y="0.000000" Z="-5.0" />
-                              <point X="-5.0" Y="0.000000" Z="0.0" />
-                              <point X="0.0" Y="0.000000" Z="5.0" />
+                              <point X="5.0" Y="0.0" Z="0.000000" />
+                              <point X="3.54" Y="0.0" Z="-3.54" />
+                              <point X="0.0" Y="0.0" Z="-5.0" />
+                              <point X="-3.54" Y="0.0" Z="-3.54" />
+                              <point X="-5.0" Y="0.0" Z="0.0" />
+                              <point X="-3.54" Y="0.0" Z="3.54" />
+                              <point X="0.0" Y="0.0" Z="5.0" />
+                              <point X="3.54" Y="0.0" Z="3.54" />
                         </translate>
                         <scale X="0.3" Y="0.3" Z="0.3" />
                         <models>

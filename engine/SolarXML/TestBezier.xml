@@ -1,0 +1,8 @@
+<scene>
+      <group>
+            <models>
+                  <model file="teapotBezier.3d" />
+            </models>
+      </group>
+</scene>
+

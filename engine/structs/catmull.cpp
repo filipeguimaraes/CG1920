@@ -119,7 +119,7 @@ void renderCatmullRomCurve(std::vector<float> * v ) {
 // draw curve using line segments with GL_LINE_LOOP
     float pos[3];
     float deriv[3];
-    glBegin(GL_LINE_LOOP);
+    glBegin(GL_POINTS);
     //gt in [0,1[
     for (float gt = 0; gt < 1; gt += 0.01) {
         getGlobalCatmullRomPoint(gt, v, pos, deriv);

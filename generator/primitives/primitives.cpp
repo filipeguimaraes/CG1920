@@ -3,9 +3,48 @@
 //
 
 #include "primitives.h"
+#include "../utils/utils.h"
 #include <math.h>
 
+std::vector<float> normal,texture;
+
+void plane_normal(FILE * f, float a){
+    normal.push_back(a/2);
+    normal.push_back(1.0f);
+    normal.push_back(a/2);
+    normal.push_back(a/2);
+    normal.push_back(1.0f);
+    normal.push_back(-a/2);
+    normal.push_back(-a/2);
+    normal.push_back(1.0f);
+    normal.push_back(-a/2);
+    normal.push_back (a/2);
+    normal.push_back(1.0f);
+    normal.push_back(a/2);
+    normal.push_back(-a/2);
+    normal.push_back(1.0f);
+    normal.push_back(-a/2);
+    normal.push_back(-a/2);
+    normal.push_back(1.0f);
+    normal.push_back(a/2);
+    write_normal(f,normal);
+}
+
+void plane_texture(FILE * f, float a){
+    texture.push_back(a/2);
+    texture.push_back(a/2);
+    texture.push_back(a/2);
+    texture.push_back(-a/2);
+    texture.push_back(-a/2);
+    texture.push_back(-a/2);
+    texture.push_back(-a/2);
+    texture.push_back(a/2);
+    write_texture(f,texture);
+}
+
+
 int plane(char * file_path, float a){
+
     FILE * f = fopen(file_path,"w");
     write_point(f,  a/2 , 0.0f,  a/2);
     write_point(f,  a/2 , 0.0f, -a/2);
@@ -13,6 +52,8 @@ int plane(char * file_path, float a){
     write_point(f,  a/2 , 0.0f,  a/2);
     write_point(f, -a/2 , 0.0f, -a/2);
     write_point(f, -a/2 , 0.0f,  a/2);
+    plane_normal(f,a);
+    plane_texture(f,a);
     fclose(f);
     return 0;
 }
@@ -21,6 +62,7 @@ void planeXZ(FILE * f,  float x, float y, float z, float tamx, float tamz, int d
     write_point(f, x * dir          , y , (z + tamz) );
     write_point(f, (x + tamx) * dir , y , z );
     write_point(f, x * dir          , y , z );
+
 
     write_point(f, x * dir          , y , (z + tamz) );
     write_point(f, (x + tamx) * dir , y , (z + tamz) );

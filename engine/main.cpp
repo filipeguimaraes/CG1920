@@ -231,7 +231,7 @@ void elemento_atributos(TiXmlElement *pElement, unsigned int indent) {
         add_vertice_translate(ps_translate,x,y,z);
     }
 
-    else if (ps_translate && !strcmp(pElement->Value(), "light")) {
+    else if (!strcmp(pElement->Value(), "light")) {
         double pos[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // default is a point
         double amb[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // opengl default
         double dif[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; //opengl default
@@ -343,6 +343,9 @@ void changeSize(int w, int h) {
 
 
 void draw_from_vector() {
+    for (auto l : *luzes)
+        draw_light(l);
+
     draw_group(global_group);
 }
 

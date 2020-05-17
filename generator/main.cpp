@@ -8,11 +8,16 @@
 
 int main(int argc, char ** argv) {
 
-    if(argc > 3 && !strcmp(argv[1],"plane") && isNumber(argv[2])){
+    if(argc > 3 && !strcmp(argv[1],"plane") &&
+       isNumber(argv[2])){
         plane(argv[3],atof(argv[2]));
     }
-    else if(argc > 6 && !strcmp(argv[1],"box") && isNumber(argv[2]) && isNumber(argv[3])
-            && isNumber(argv[4]) && isNumber(argv[5])){
+    else if(argc > 6 &&
+            !strcmp(argv[1],"box") &&
+            isNumber(argv[2]) &&
+            isNumber(argv[3]) &&
+            isNumber(argv[4]) &&
+            isNumber(argv[5])){
         box(argv[6],atof(argv[2]),atof(argv[3])
                 ,atof(argv[4]),atoi(argv[5]));
     }

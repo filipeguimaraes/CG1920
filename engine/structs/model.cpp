@@ -111,6 +111,20 @@ void add_vertice(MODEL m, float v) {
 }
 
 
+void add_normal(MODEL m, float v) {
+    if (m) {
+        m->pontos_normais->push_back(v);
+    }
+}
+
+
+void add_textura(MODEL m, float v) {
+    if (m) {
+        m->pontos_textura->push_back(v);
+    }
+}
+
+
 void init_vbo_model(MODEL m) {
     if (m) {
         std::vector<float> vertices = *m->pontos;

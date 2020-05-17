@@ -2,6 +2,8 @@
 #define ENGINE_MODEL_H
 
 #include "transformation.h"
+#include <cstdlib>
+#include <string>
 
 typedef struct model * MODEL;
 
@@ -25,5 +27,9 @@ void set_emissive(MODEL m, double * em);
 void set_ambient(MODEL m, double * am);
 
 void set_textura(MODEL m, std::string texture);
+
+void add_normal(MODEL m, float v);
+
+void add_textura(MODEL m, float v);
 
 #endif //ENGINE_MODEL_H

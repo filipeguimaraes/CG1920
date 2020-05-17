@@ -34,16 +34,42 @@ MODEL read_file_points(const char *file) {
     FILE *f;
     float x, y, z;
     f = fopen(file, "r");
-    int i=0;
-    while (!feof(f) && fscanf(f, "%f, %f, %f\n", &x, &y, &z)) {
+    int r = 0;
+    char buff[256];
 
-        add_vertice(m, x);
-        add_vertice(m, y);
-        add_vertice(m, z);
+    while (!feof(f) && fgets(buff,256,f)) {
+        switch (r){
+            case 0 :
+                if (sscanf(buff, "%f, %f, %f\n", &x, &y, &z) == 3) {
+                    add_vertice(m, x);
+                    add_vertice(m, y);
+                    add_vertice(m, z);
+                }
+                else r = 1;
+                break;
 
-        //FIX_IT add the reading for normals and texture coordinates
+            case 1:
+                if (sscanf(buff, "%f, %f, %f\n", &x, &y, &z) == 3) {
+                    add_normal(m, x);
+                    add_normal(m, y);
+                    add_normal(m, z);
+                }
+                else r = 2;
+                break;
 
+            case 2:
+                if (sscanf(buff, "%f, %f\n", &x, &y) == 2) {
+                    add_textura(m, x);
+                    add_textura(m, y);
+                }
+                else r = 3;
+                break;
+
+            default:
+                break;
+        }
     }
+
     fclose(f);
 
     return m;
@@ -157,7 +183,7 @@ void elemento_atributos(TiXmlElement *pElement, unsigned int indent) {
         set_diffuse(m,diffuse);
         set_specular(m,specular);
         set_emissive(m,emissive);
-        set_textura(m,textura);
+        if (textura) set_textura(m,textura);
     }
 
     else if (!strcmp(pElement->Value(), "scale")) {
@@ -216,10 +242,10 @@ void elemento_atributos(TiXmlElement *pElement, unsigned int indent) {
         char * type = NULL;
         light_atributos(pElement->FirstAttribute(), &type, pos, amb, dif, spec, spotD, &spotExp, &spotCut);
 
-        if (!strcmp(type,"DIRECTIONAL") == 0)
+        if (strcmp(type,"DIRECTIONAL") == 0)
             pos[3] = 0.0f;
 
-        LIGHT l = init_light(luzes->size(), pos, amb, dif, spec, spotD, spotExp, spotCut);
+        LIGHT l = init_light(GL_LIGHT0 + luzes->size(), pos, amb, dif, spec, spotD, spotExp, spotCut);
 
         luzes->push_back(l);
     }
@@ -346,7 +372,7 @@ void renderScene(void) {
     glEnd();
 */
     //drawing instructions
-    glPolygonMode(GL_FRONT, GL_LINE);
+//    glPolygonMode(GL_FRONT, GL_LINE);
 
 
     glColor3f(1,1,1);
@@ -366,6 +392,8 @@ void init(const char *file) {
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_NORMAL_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        luzes = new std::vector<LIGHT>();
 
         global_group = init_group();
         ps_group = global_group;

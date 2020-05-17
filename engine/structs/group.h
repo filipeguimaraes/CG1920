@@ -18,4 +18,6 @@ void init_vbo_group (GROUP g);
 
 void draw_group(GROUP g);
 
+void load_textures(GROUP g);
+
 #endif //ENGINE_GROUP_H

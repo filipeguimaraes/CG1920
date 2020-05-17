@@ -13,7 +13,10 @@
 #include "tinyxml/tinyxml.h"
 #include "structs/group.h"
 #include "mouse/mouse.h"
+#include "structs/light.h"
 #include <iostream>
+
+std::vector<LIGHT> * luzes = NULL;
 
 GROUP global_group = NULL;
 
@@ -22,7 +25,7 @@ GROUP ps_group = NULL;
 TRANSFORMACAO ps_translate = NULL;
 
 
-void read_file_points(const char *file) {
+MODEL read_file_points(const char *file) {
     MODEL m = init_model();
     add_model(ps_group, m);
 
@@ -42,25 +45,27 @@ void read_file_points(const char *file) {
 
     }
     fclose(f);
+
+    return m;
 }
 
 
-void file_atributos(TiXmlAttribute * pAttrib, char ** file, double ** d, double ** s, double ** a, double ** e) {
+void file_atributos(TiXmlAttribute * pAttrib, char ** file, char ** textura, double * d, double * s, double * a, double * e) {
     while (pAttrib) {
         if (!strcmp(pAttrib->Name(), "file")) *file = strdup(pAttrib->Value()); else
-        if (!strcmp(pAttrib->Name(), "texture")) *file = strdup(pAttrib->Value()); else
-        if (!strcmp(pAttrib->Name(), "diffR") && pAttrib->QueryDoubleValue(d[0]) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "diffG") && pAttrib->QueryDoubleValue(d[1]) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "diffB") && pAttrib->QueryDoubleValue(d[2]) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "specR") && pAttrib->QueryDoubleValue(s[0]) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "specG") && pAttrib->QueryDoubleValue(s[1]) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "specB") && pAttrib->QueryDoubleValue(s[2]) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "ambR" ) && pAttrib->QueryDoubleValue(a[0]) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "ambG" ) && pAttrib->QueryDoubleValue(a[1]) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "ambB" ) && pAttrib->QueryDoubleValue(a[2]) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "emisR") && pAttrib->QueryDoubleValue(e[0]) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "emisG") && pAttrib->QueryDoubleValue(e[1]) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "emisB") && pAttrib->QueryDoubleValue(e[2]) == TIXML_SUCCESS);
+        if (!strcmp(pAttrib->Name(), "texture")) *textura = strdup(pAttrib->Value()); else
+        if (!strcmp(pAttrib->Name(), "diffR") && pAttrib->QueryDoubleValue(d+0) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "diffG") && pAttrib->QueryDoubleValue(d+1) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "diffB") && pAttrib->QueryDoubleValue(d+2) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "specR") && pAttrib->QueryDoubleValue(s+0) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "specG") && pAttrib->QueryDoubleValue(s+1) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "specB") && pAttrib->QueryDoubleValue(s+2) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "ambR" ) && pAttrib->QueryDoubleValue(a+0) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "ambG" ) && pAttrib->QueryDoubleValue(a+1) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "ambB" ) && pAttrib->QueryDoubleValue(a+2) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "emisR") && pAttrib->QueryDoubleValue(e+0) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "emisG") && pAttrib->QueryDoubleValue(e+1) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "emisB") && pAttrib->QueryDoubleValue(e+2) == TIXML_SUCCESS);
         pAttrib = pAttrib->Next();
     }
 }
@@ -91,13 +96,26 @@ void rotate_atributos(TiXmlAttribute *pAttrib, double *x, double *y, double *z, 
 }
 
 
-void light_atributos(TiXmlAttribute *pAttrib, double *x, double *y, double *z, char **t) {
-    *x = *y = *z = 0;
+void light_atributos(TiXmlAttribute *pAttrib, char **t, double *pos, double *amb, double *dif, double *spec, double *spotD, double *spotExp, double *spotCut) {
     while (pAttrib) {
-        if (!strcmp(pAttrib->Name(), "posX") && pAttrib->QueryDoubleValue(x) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "posY") && pAttrib->QueryDoubleValue(y) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "posZ") && pAttrib->QueryDoubleValue(z) == TIXML_SUCCESS); else
-        if (!strcmp(pAttrib->Name(), "type")) *t = strdup(pAttrib->Value());
+        if (!strcmp(pAttrib->Name(), "type")) *t = strdup(pAttrib->Value()); else
+        if (!strcmp(pAttrib->Name(), "posX") && pAttrib->QueryDoubleValue(pos+0) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "posY") && pAttrib->QueryDoubleValue(pos+1) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "posZ") && pAttrib->QueryDoubleValue(pos+2) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "diffR") && pAttrib->QueryDoubleValue(dif+0) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "diffG") && pAttrib->QueryDoubleValue(dif+1) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "diffB") && pAttrib->QueryDoubleValue(dif+2) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "specR") && pAttrib->QueryDoubleValue(spec+0) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "specG") && pAttrib->QueryDoubleValue(spec+1) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "specB") && pAttrib->QueryDoubleValue(spec+2) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "ambR" ) && pAttrib->QueryDoubleValue(amb+0) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "ambG" ) && pAttrib->QueryDoubleValue(amb+1) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "ambB" ) && pAttrib->QueryDoubleValue(amb+2) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "dX") && pAttrib->QueryDoubleValue(spotD+0) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "dY") && pAttrib->QueryDoubleValue(spotD+1) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "dZ") && pAttrib->QueryDoubleValue(spotD+2) == TIXML_SUCCESS);else
+        if (!strcmp(pAttrib->Name(), "exp") && pAttrib->QueryDoubleValue(spotExp) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "cut") && pAttrib->QueryDoubleValue(spotCut) == TIXML_SUCCESS);
         pAttrib = pAttrib->Next();
     }
 }
@@ -108,16 +126,38 @@ void elemento_atributos(TiXmlElement *pElement, unsigned int indent) {
 
     if (!strcmp(pElement->Value(), "model")) {
         char *file = NULL;
-        double diffuse[3] = {0};
-        double specular[3] = {0};
-        double emissive[3] = {0};
-        double ambient[3] = {0};
+        char *textura = NULL;
+        double diffuse[4] = {0};
+        double specular[4] = {0};
+        double emissive[4] = {0};
+        double ambient[4] = {0};
 
-        file_atributos(pElement->FirstAttribute(), &file, (double **)(&diffuse), (double **)(&specular),
-                                                          (double **)(&ambient), (double **)(&emissive));
+        for(int i = 0; i < 4; i++) {
+            if (i != 3) {
+                diffuse[i] = 0.8f;
+                specular[i] = 0.0f;
+                emissive[i] = 0.0f;
+                ambient[i] = 0.2f;
+            }
+            else {
+                diffuse[i] = 1.0f;
+                specular[i] = 1.0f;
+                emissive[i] = 1.0f;
+                ambient[i] = 1.0f;
+            }
+        }
 
-        // FIX_IT do something with the variables
-        read_file_points(file);
+        file_atributos(pElement->FirstAttribute(), &file, &textura, diffuse, specular, ambient, emissive);
+
+        MODEL m = read_file_points(file);
+
+
+
+        set_ambient(m,ambient);
+        set_diffuse(m,diffuse);
+        set_specular(m,specular);
+        set_emissive(m,emissive);
+        set_textura(m,textura);
     }
 
     else if (!strcmp(pElement->Value(), "scale")) {
@@ -166,11 +206,22 @@ void elemento_atributos(TiXmlElement *pElement, unsigned int indent) {
     }
 
     else if (ps_translate && !strcmp(pElement->Value(), "light")) {
-        double x, y, z;
+        double pos[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // default is a point
+        double amb[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // opengl default
+        double dif[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; //opengl default
+        double spec[4] = { 1.0f, 1.0f, 1.0f, 1.0f}; // opengl default
+        double spotD[3] = { 0.0f, 0.0f, -1.0f }; // opengl default
+        double spotExp = 0.0f; // opengl default, uniform light dist
+        double spotCut = 180.0f; // opengl default, uniform light dist
         char * type = NULL;
-        light_atributos(pElement->FirstAttribute(), &x, &y, &z, &type);
+        light_atributos(pElement->FirstAttribute(), &type, pos, amb, dif, spec, spotD, &spotExp, &spotCut);
 
-        // FIX_IT criar luz etc
+        if (!strcmp(type,"DIRECTIONAL") == 0)
+            pos[3] = 0.0f;
+
+        LIGHT l = init_light(luzes->size(), pos, amb, dif, spec, spotD, spotExp, spotCut);
+
+        luzes->push_back(l);
     }
 }
 
@@ -297,10 +348,11 @@ void renderScene(void) {
     //drawing instructions
     glPolygonMode(GL_FRONT, GL_LINE);
 
-    
+
     glColor3f(1,1,1);
 
     draw_from_vector();
+    //glutSolidTeapot(1);
     // End of frame
     glutSwapBuffers();
 }
@@ -308,17 +360,29 @@ void renderScene(void) {
 
 void init(const char *file) {
     if (!global_group ) {
-        #ifndef __APPLE__
+#ifndef __APPLE__
         glewInit();
-        #endif
+#endif
         glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
         global_group = init_group();
         ps_group = global_group;
 
         load_file(file);
 
+        if (luzes->size() > 0)
+            glEnable(GL_LIGHTING);
+        for(auto l : *luzes) {
+            enable_light(l);
+        }
+
         init_vbo_group(global_group);
+
+        glEnable(GL_TEXTURE_2D);
+
+        load_textures(global_group);
     }
 }
 

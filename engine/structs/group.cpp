@@ -83,3 +83,13 @@ void draw_group (GROUP g) {
     glPopMatrix();
 }
 
+
+void load_textures (GROUP g) {
+    for(MODEL m : *(g->models)) {
+        load_texture(m);
+    }
+
+    for(GROUP child_group : *(g->sub_group)) {
+        load_textures(child_group);
+    }
+}

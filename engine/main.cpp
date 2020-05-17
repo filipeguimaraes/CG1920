@@ -301,7 +301,6 @@ void renderScene(void) {
     glColor3f(1,1,1);
 
     draw_from_vector();
-    //glutSolidTeapot(1);
     // End of frame
     glutSwapBuffers();
 }

@@ -21,6 +21,7 @@ GROUP ps_group = NULL;
 
 TRANSFORMACAO ps_translate = NULL;
 
+
 void read_file_points(const char *file) {
     MODEL m = init_model();
     add_model(ps_group, m);
@@ -37,14 +38,29 @@ void read_file_points(const char *file) {
         add_vertice(m, y);
         add_vertice(m, z);
 
+        //FIX_IT add the reading for normals and texture coordinates
+
     }
     fclose(f);
 }
 
 
-void file_atributos(TiXmlAttribute * pAttrib, char ** file) {
+void file_atributos(TiXmlAttribute * pAttrib, char ** file, double ** d, double ** s, double ** a, double ** e) {
     while (pAttrib) {
-        if (!strcmp(pAttrib->Name(), "file")) *file = strdup(pAttrib->Value());
+        if (!strcmp(pAttrib->Name(), "file")) *file = strdup(pAttrib->Value()); else
+        if (!strcmp(pAttrib->Name(), "texture")) *file = strdup(pAttrib->Value()); else
+        if (!strcmp(pAttrib->Name(), "diffR") && pAttrib->QueryDoubleValue(d[0]) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "diffG") && pAttrib->QueryDoubleValue(d[1]) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "diffB") && pAttrib->QueryDoubleValue(d[2]) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "specR") && pAttrib->QueryDoubleValue(s[0]) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "specG") && pAttrib->QueryDoubleValue(s[1]) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "specB") && pAttrib->QueryDoubleValue(s[2]) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "ambR" ) && pAttrib->QueryDoubleValue(a[0]) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "ambG" ) && pAttrib->QueryDoubleValue(a[1]) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "ambB" ) && pAttrib->QueryDoubleValue(a[2]) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "emisR") && pAttrib->QueryDoubleValue(e[0]) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "emisG") && pAttrib->QueryDoubleValue(e[1]) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "emisB") && pAttrib->QueryDoubleValue(e[2]) == TIXML_SUCCESS);
         pAttrib = pAttrib->Next();
     }
 }
@@ -75,14 +91,33 @@ void rotate_atributos(TiXmlAttribute *pAttrib, double *x, double *y, double *z, 
 }
 
 
+void light_atributos(TiXmlAttribute *pAttrib, double *x, double *y, double *z, char **t) {
+    *x = *y = *z = 0;
+    while (pAttrib) {
+        if (!strcmp(pAttrib->Name(), "posX") && pAttrib->QueryDoubleValue(x) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "posY") && pAttrib->QueryDoubleValue(y) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "posZ") && pAttrib->QueryDoubleValue(z) == TIXML_SUCCESS); else
+        if (!strcmp(pAttrib->Name(), "type")) *t = strdup(pAttrib->Value());
+        pAttrib = pAttrib->Next();
+    }
+}
+
+
 void elemento_atributos(TiXmlElement *pElement, unsigned int indent) {
     if (!pElement) return;
 
     if (!strcmp(pElement->Value(), "model")) {
         char *file = NULL;
-        file_atributos(pElement->FirstAttribute(), &file);
-        read_file_points(file);
+        double diffuse[3] = {0};
+        double specular[3] = {0};
+        double emissive[3] = {0};
+        double ambient[3] = {0};
 
+        file_atributos(pElement->FirstAttribute(), &file, (double **)(&diffuse), (double **)(&specular),
+                                                          (double **)(&ambient), (double **)(&emissive));
+
+        // FIX_IT do something with the variables
+        read_file_points(file);
     }
 
     else if (!strcmp(pElement->Value(), "scale")) {
@@ -129,7 +164,16 @@ void elemento_atributos(TiXmlElement *pElement, unsigned int indent) {
 
         add_vertice_translate(ps_translate,x,y,z);
     }
+
+    else if (ps_translate && !strcmp(pElement->Value(), "light")) {
+        double x, y, z;
+        char * type = NULL;
+        light_atributos(pElement->FirstAttribute(), &x, &y, &z, &type);
+
+        // FIX_IT criar luz etc
+    }
 }
+
 
 
 void parse_xml_nodes(TiXmlNode *pParent, unsigned int indent = 0) {

@@ -3,6 +3,10 @@
 #include <math.h>
 
 
+std::vector<float> normalBezier, textureBezier;
+void bezier_add_normal(float * p1, float * p2, float * p3, float * p4);
+
+
 BezierPatchTXT read_Bezier_Patches(const char *file) {
     //fazer a leitura da informação do ficheiro com os bezier patches para estruturas adequadas
     BezierPatchTXT bp;
@@ -67,6 +71,7 @@ void bezierPatches(BezierPatchTXT bp, char * fileModel, int tesselation){
 
     //Pontos do bezier patch calculados com a tesselation
     float bezierPatchPoints[tesselation + 1][tesselation + 1][3];
+
 
     for(int i = 0;i < bp.patches;i++){
         //matrix com coordenadas X dos pontos do patch i
@@ -135,6 +140,91 @@ void bezierPatches(BezierPatchTXT bp, char * fileModel, int tesselation){
             }
         }
 
+        //desenhar os triangulos no ficheiro com o model
+        for(int u = 0; u < tesselation; u++){
+            for(int v = 0; v < tesselation; v++){
+                for(int w = 0; w < 6; w++){
+                    switch(w){
+                        case 0:
+                        case 3:
+                            a = u; b = v;
+                            break;
+                        case 1:
+                            a = u + 1; b = v;
+                            break;
+                        case 2:
+                        case 4:
+                            a = u + 1; b= v + 1;
+                            break;
+                        case 5:
+                            a = u; b = v + 1;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (u <= 0) a++; else
+                    if (u >= tesselation-1) a--;
+                    if (v <= 0) b++; else
+                    if (v >= tesselation-1) b--;
+
+                    bezier_add_normal(
+                            bezierPatchPoints[a][b-1],
+                            bezierPatchPoints[a][b+1],
+                            bezierPatchPoints[a-1][b],
+                            bezierPatchPoints[a+1][b]
+                            );
+                }
+            }
+        }
     }
+
+    write_normal(f,normalBezier);
+    write_texture(f,textureBezier);
+
     fclose(f);
+}
+
+
+
+void bezier_add_normal(float * p1, float * p2, float * p3, float * p4) {
+    // fill the normal vector with the normal for vertex at grid location (i,j)
+
+    //ponto 1 (i, j - 1)
+    float p1x = p1[0];
+    float p1y = p1[1];
+    float p1z = p1[2];
+
+    //ponto 2 (i, j + 1)
+    float p2x = p2[0];
+    float p2y = p2[1];
+    float p2z = p2[2];
+
+    //ponto 3 (i - 1, j)
+    float p3x = p3[0];
+    float p3y = p3[1];
+    float p3z = p3[2];
+
+    //ponto 4 (i + 1, j)
+    float p4x = p4[0];
+    float p4y = p4[1];
+    float p4z = p4[2];
+
+    //vetor entre 1 e 2
+    float v1_2[3] = {p1x - p2x, p1y - p2y, p1z - p2z};
+    normalize(v1_2);
+
+    //vetor entre 3 e 4
+    float v3_4[3] = {p3x - p4x, p3y - p4y, p3z - p4z};
+    normalize(v3_4);
+
+    //vetor final
+    float v[3];
+    cross(v1_2, v3_4, v);
+    normalize(v);
+
+    //adicionar ao vetor das normais
+    normalBezier.push_back(v[0]);//x
+    normalBezier.push_back(v[1]);//y
+    normalBezier.push_back(v[2]);//z
 }

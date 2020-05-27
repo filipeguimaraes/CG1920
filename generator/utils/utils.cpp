@@ -97,3 +97,5 @@ void bezier_add_normal(std::vector<float> &normal, float * p1, float * p2, float
     normal.push_back(v[1]);//y
     normal.push_back(v[2]);//z
 }
+
+

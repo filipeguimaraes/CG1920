@@ -3,8 +3,10 @@
 #include <math.h>
 #include "utils/utils.h"
 #include "bezier/bezier.h"
-#include "primitives/primitives.h"
-
+#include "primitives/plane.h"
+#include "primitives/box.h"
+#include "primitives/cone.h"
+#include "primitives/sphere.h"
 
 int main(int argc, char ** argv) {
 

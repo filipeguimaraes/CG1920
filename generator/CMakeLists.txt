@@ -6,7 +6,7 @@ set(PROJECT_NAME generator)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-add_executable(${PROJECT_NAME} main.cpp bezier/bezier.cpp bezier/bezier.h utils/utils.cpp utils/utils.h primitives/primitives.cpp primitives/primitives.h)
+add_executable(${PROJECT_NAME} main.cpp bezier/bezier.cpp bezier/bezier.h utils/utils.cpp utils/utils.h primitives/primitives.cpp primitives/primitives.h primitives/box.cpp primitives/box.h primitives/plane.cpp primitives/plane.h primitives/cone.cpp primitives/cone.h primitives/sphere.cpp primitives/sphere.h)
 
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})

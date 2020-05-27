@@ -3,6 +3,9 @@
 #include <math.h>
 
 
+std::vector<float> normalBezier, textureBezier;
+
+
 BezierPatchTXT read_Bezier_Patches(const char *file) {
     //fazer a leitura da informação do ficheiro com os bezier patches para estruturas adequadas
     BezierPatchTXT bp;
@@ -67,6 +70,7 @@ void bezierPatches(BezierPatchTXT bp, char * fileModel, int tesselation){
 
     //Pontos do bezier patch calculados com a tesselation
     float bezierPatchPoints[tesselation + 1][tesselation + 1][3];
+
 
     for(int i = 0;i < bp.patches;i++){
         //matrix com coordenadas X dos pontos do patch i
@@ -135,6 +139,48 @@ void bezierPatches(BezierPatchTXT bp, char * fileModel, int tesselation){
             }
         }
 
+        //desenhar os triangulos no ficheiro com o model
+        for(int u = 0; u < tesselation; u++){
+            for(int v = 0; v < tesselation; v++){
+                for(int w = 0; w < 6; w++){
+                    switch(w){
+                        case 0:
+                        case 3:
+                            a = u; b = v;
+                            break;
+                        case 1:
+                            a = u + 1; b = v;
+                            break;
+                        case 2:
+                        case 4:
+                            a = u + 1; b= v + 1;
+                            break;
+                        case 5:
+                            a = u; b = v + 1;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (u <= 0) a++; else
+                    if (u >= tesselation-1) a--;
+                    if (v <= 0) b++; else
+                    if (v >= tesselation-1) b--;
+
+                    bezier_add_normal(
+                            normalBezier,
+                            bezierPatchPoints[a][b-1],
+                            bezierPatchPoints[a][b+1],
+                            bezierPatchPoints[a-1][b],
+                            bezierPatchPoints[a+1][b]
+                            );
+                }
+            }
+        }
     }
+
+    write_normal(f,normalBezier);
+    write_texture(f,textureBezier);
+
     fclose(f);
 }

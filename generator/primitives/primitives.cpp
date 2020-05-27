@@ -227,6 +227,28 @@ int box(char *file_path, float x, float y, float z, int div) {
     return 0;
 }
 
+void add_cone_normal (std::vector<float> &normal_, float r1, float rp, float h1, float hp, float a, float angulo) {
+    float p1[3], p2[3], p3[3], p4[3];
+
+    p1[0] = r1 * cos(a-angulo);
+    p1[1] = h1;
+    p1[2] = r1 * sin(a-angulo);
+
+    p2[0] = r1 * cos(a+angulo);
+    p2[1] = h1;
+    p2[2] = r1 * sin(a+angulo);
+
+    p3[0] = (r1-rp) * cos(a);
+    p3[1] = h1+hp;
+    p3[2] = (r1-rp) * sin(a);
+
+    p4[0] = (r1+rp) * cos(a);
+    p4[1] = h1-hp;
+    p4[2] = (r1+rp) * sin(a);
+
+    bezier_add_normal(normal_, p1, p2, p3, p4);
+}
+
 void cone(char *file, float h, float r, float slices, float stacks) {
     FILE *f = fopen(file, "w");
     float a = 0;
@@ -243,6 +265,10 @@ void cone(char *file, float h, float r, float slices, float stacks) {
         write_point(f, r * cos(a), h1, r * sin(a));
         a += angulo;
         write_point(f, r * cos(a), h1, r * sin(a));
+
+        add_point_normal( 0, h1, 0);
+        add_point_normal( 0, h1, 0);
+        add_point_normal( 0, h1, 0);
     }
     a = 0;
 
@@ -255,15 +281,29 @@ void cone(char *file, float h, float r, float slices, float stacks) {
             write_point(f, r2 * cos(a), h2, r2 * sin(a));
             write_point(f, r1 * cos(a + angulo), h1, r1 * sin(a + angulo));
 
+            add_cone_normal(normal, r1, r/stacks, h1, h/stacks, a, angulo);
+            add_cone_normal(normal, r2, r/stacks, h2, h/stacks, a, angulo);
+            add_cone_normal(normal, r1, r/stacks, h1, h/stacks, a+angulo, angulo);
+
+
             write_point(f, r2 * cos(a), h2, r2 * sin(a));
             write_point(f, r2 * cos(a + angulo), h2, r2 * sin(a + angulo));
             write_point(f, r1 * cos(a + angulo), h1, r1 * sin(a + angulo));
+
+            add_cone_normal(normal, r2, r/stacks, h2, h/stacks, a, angulo);
+            add_cone_normal(normal, r2, r/stacks, h2, h/stacks, a+angulo, angulo);
+            add_cone_normal(normal, r1, r/stacks, h1, h/stacks, a+angulo, angulo);
+
             a += angulo;
         }
         h1 = h2;
         r1 = r2;
         a = 0;
     }
+
+    write_normal(f,normal);
+    write_texture(f,texture);
+
     fclose(f);
 }
 
@@ -275,6 +315,10 @@ void findPosition(FILE *f, float raio, int stacks, int slices, float alfa_j, flo
     write_point(f, (float) raio * cos(beta) * sin(alfa),
                 (float) raio * sin(beta),
                 (float) raio * cos(beta) * cos(alfa));
+
+    add_point_normal((float) raio * cos(beta) * sin(alfa),
+                     (float) raio * sin(beta),
+                     (float) raio * cos(beta) * cos(alfa));
 }
 
 
@@ -360,5 +404,9 @@ void sphere(char *file, float raio, int slices, int stacks) {
             }
         }
     }
+
+    write_normal(f,normal);
+    write_texture(f,texture);
+
     fclose(f);
 }

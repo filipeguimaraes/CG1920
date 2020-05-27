@@ -17,4 +17,6 @@ void cross(float *a, float *b, float *res);
 
 void normalize(float *a);
 
+void bezier_add_normal(std::vector<float> &normal, float * p1, float * p2, float * p3, float * p4);
+
 #endif //GENERATOR_UTILS_H

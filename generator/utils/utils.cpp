@@ -54,3 +54,46 @@ void normalize(float *a) {
     a[1] = a[1] / l;
     a[2] = a[2] / l;
 }
+
+
+void bezier_add_normal(std::vector<float> &normal, float * p1, float * p2, float * p3, float * p4) {
+    // fill the normal vector with the normal for vertex at grid location (i,j)
+
+    //ponto 1 (i, j - 1)
+    float p1x = p1[0];
+    float p1y = p1[1];
+    float p1z = p1[2];
+
+    //ponto 2 (i, j + 1)
+    float p2x = p2[0];
+    float p2y = p2[1];
+    float p2z = p2[2];
+
+    //ponto 3 (i - 1, j)
+    float p3x = p3[0];
+    float p3y = p3[1];
+    float p3z = p3[2];
+
+    //ponto 4 (i + 1, j)
+    float p4x = p4[0];
+    float p4y = p4[1];
+    float p4z = p4[2];
+
+    //vetor entre 1 e 2
+    float v1_2[3] = {p1x - p2x, p1y - p2y, p1z - p2z};
+    normalize(v1_2);
+
+    //vetor entre 3 e 4
+    float v3_4[3] = {p3x - p4x, p3y - p4y, p3z - p4z};
+    normalize(v3_4);
+
+    //vetor final
+    float v[3];
+    cross(v1_2, v3_4, v);
+    normalize(v);
+
+    //adicionar ao vetor das normais
+    normal.push_back(v[0]);//x
+    normal.push_back(v[1]);//y
+    normal.push_back(v[2]);//z
+}

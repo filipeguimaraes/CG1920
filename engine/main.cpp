@@ -358,8 +358,8 @@ void renderScene(void) {
     // set the camera
     glLoadIdentity();
     gluLookAt(getCamX(), getCamY(), getCamZ(),
-              0.0, 0.0, 0.0,
-              0.0f, 1.0f, 0.0f);
+              getlookX(), getlookY(), getlookZ(),
+              getupX(), getupY(), getupZ());
 
 /*
     glBegin(GL_LINES);
@@ -441,7 +441,7 @@ int main(int argc, char **argv) {
 
 //  OpenGL settings
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+   // glEnable(GL_CULL_FACE);
 
 // enter GLUT's main cycle
     glutMainLoop();

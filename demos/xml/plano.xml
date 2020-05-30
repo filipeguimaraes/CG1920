@@ -1,0 +1,7 @@
+<scene>
+    <group>
+        <models>
+            <model file="primitives/plane.3d" texture="textures/Concrete.jpg"/>
+        </models>
+    </group>
+</scene>

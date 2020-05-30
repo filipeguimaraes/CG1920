@@ -13,4 +13,17 @@ float getCamY();
 
 float getCamZ();
 
+float getlookX();
+
+float getlookY();
+
+float getlookZ();
+
+float getupX();
+
+float getupY();
+
+float getupZ();
+
+
 #endif //ENGINE_MOUSE_H

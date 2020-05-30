@@ -1,0 +1,3 @@
+/home/wtv/university/CG/CG1920/demos/CMakeFiles/rebuild_cache.dir
+/home/wtv/university/CG/CG1920/demos/CMakeFiles/edit_cache.dir
+/home/wtv/university/CG/CG1920/demos/CMakeFiles/engine.dir

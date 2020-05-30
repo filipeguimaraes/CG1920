@@ -1,9 +1,19 @@
 <scene>
+      <lights>
+            <light type="POINT" posX="0" posY="0" posZ="0" />
+      </lights>
       <group>
             <!-- Sun -->
             <models>
-                  <model file="sphere.3d" />
+                  <model file="sphere.3d" texture="planets/sun.jpg" emisR="1" emisG="1" emisB="1" />
             </models>
+            <group>
+                  <!-- Sky -->
+                  <scale X="600" Y="600" Z="600" />
+                  <models>
+                        <model file="sphere.3d" texture="planets/sky.jpg" />
+                  </models>
+            </group>
             <group>
                   <!-- Cometa -->
                   <translate time="10000000">
@@ -15,7 +25,7 @@
                   </translate >
                   <scale X="0.40" Y="0.40" Z="0.40" />
                   <models>
-                        <model file="teapotBezier.3d" />
+                        <model file="teapotBezier.3d"/>
                   </models>
             </group>
             <group>
@@ -33,7 +43,7 @@
                   <scale X="0.20" Y="0.20" Z="0.20" />
                   <rotate axisX="0.0" axisY="1.0" axisZ="0.1" time="14070000" />
                   <models>
-                        <model file="sphere.3d" />
+                        <model file="sphere.3d" texture="planets/mercury.jpg"/>
                   </models>
             </group>
             <group>
@@ -51,7 +61,7 @@
                   <scale X="0.35" Y="0.35" Z="0.35" />
                   <rotate axisX="0.0" axisY="1.0" axisZ="0.2" time="240000" />
                   <models>
-                        <model file="sphere.3d" />
+                        <model file="sphere.3d" texture="planets/venus.jpg"/>
                   </models>
             </group>
             <group>
@@ -69,7 +79,7 @@
                   <rotate axisX="0.0" axisY="1.0" axisZ="0.3" time="240000" />
                   <scale X="0.40" Y="0.40" Z="0.40" />
                   <models>
-                        <model file="sphere.3d" />
+                        <model file="sphere.3d" texture="planets/earth.jpg" />
                   </models>
                   <group>
                         <!-- Lua -->
@@ -86,7 +96,7 @@
                         </translate>
                         <scale X="0.3" Y="0.3" Z="0.3" />
                         <models>
-                              <model file="sphere.3d" />
+                              <model file="sphere.3d" texture="planets/moon.jpg" />
                         </models>
                   </group>
             </group>
@@ -105,7 +115,7 @@
                   <scale X="0.25" Y="0.25" Z="0.25" />
                   <rotate axisX="0.0" axisY="1.0" axisZ="0.0" time="240000" />
                   <models>
-                        <model file="sphere.3d" />
+                        <model file="sphere.3d" texture="planets/mars.jpg" />
                   </models>
             </group>
             <group>
@@ -123,7 +133,7 @@
                   <scale X="0.84" Y="0.84" Z="0.84" />
                   <rotate axisX="0.0" axisY="1.0" axisZ="0.0" time="240000" />
                   <models>
-                        <model file="sphere.3d" />
+                        <model file="sphere.3d" texture="planets/jupiter.jpg"/>
                   </models>
                   <group>
                         <!-- Europa -->
@@ -136,7 +146,7 @@
                         </translate>
                         <scale X="0.25" Y="0.25" Z="0.25" />
                         <models>
-                              <model file="sphere.3d" />
+                              <model file="sphere.3d" texture="planets/europa.jpg"/>
                         </models>
                   </group>
                   <group>
@@ -150,7 +160,7 @@
                         </translate>
                         <scale X="0.3" Y="0.3" Z="0.3" />
                         <models>
-                              <model file="sphere.3d" />
+                              <model file="sphere.3d" texture="planets/calisto.jpg" />
                         </models>
                   </group>
             </group>
@@ -169,7 +179,7 @@
                   <scale X="0.75" Y="0.75" Z="0.75" />
                   <rotate axisX="0.0" axisY="0.0" axisZ="1.0" angle="26.73" />
                   <models>
-                        <model file="sphere.3d" />
+                        <model file="sphere.3d" texture="planets/saturn.jpg"/>
                   </models>
             </group>
             <group>
@@ -187,7 +197,7 @@
                   <scale X="0.55" Y="0.55" Z="0.55" />
                   <rotate axisX="0.0" axisY="1.0" axisZ="0.0" time="240000" />
                   <models>
-                        <model file="sphere.3d" />
+                        <model file="sphere.3d" texture="planets/uranus.jpg" />
                   </models>
             </group>
             <group>
@@ -205,7 +215,7 @@
                   <scale X="0.60" Y="0.60" Z="0.60" />
                   <rotate axisX="0.0" axisY="1.0" axisZ="0.0" time="240000" />
                   <models>
-                        <model file="sphere.3d" />
+                        <model file="sphere.3d" texture="planets/neptune.jpg" />
                   </models>
             </group>
       </group>

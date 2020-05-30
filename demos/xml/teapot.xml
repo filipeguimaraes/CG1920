@@ -1,0 +1,7 @@
+<scene>
+    <group>
+        <models>
+            <model file="primitives/teapot.3d" texture="textures/teapot.jpg"/>
+        </models>
+    </group>
+</scene>

@@ -1,0 +1,7 @@
+<scene>
+    <group>
+        <models>
+            <model file="cone.3d" texture="cone.jpg"/>
+        </models>
+    </group>
+</scene>

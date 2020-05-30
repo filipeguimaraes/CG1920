@@ -6,6 +6,13 @@
 std::vector<float> normalBezier, textureBezier;
 
 
+
+void add_point_textureBezier(float f1, float f2) {
+    textureBezier.push_back(f1);
+    textureBezier.push_back(f2);
+}
+
+
 BezierPatchTXT read_Bezier_Patches(const char *file) {
     //fazer a leitura da informação do ficheiro com os bezier patches para estruturas adequadas
     BezierPatchTXT bp;
@@ -135,6 +142,7 @@ void bezierPatches(BezierPatchTXT bp, char * fileModel, int tesselation){
                     float y = bezierPatchPoints[a][b][1];
                     float z = bezierPatchPoints[a][b][2];
                     write_point(f,x,y,z);
+                    add_point_textureBezier(x,y);
                 }
             }
         }

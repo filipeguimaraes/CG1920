@@ -54,7 +54,7 @@ int main(int argc, char ** argv) {
         puts("-- ./generator sphere [radius] [slices] [stacks] [output file name]                    --");
         puts("-----------------------------------------------------------------------------------------");
         puts("-- Bezier Patch:                                                                       --");
-        puts("-- ./ generator bezierPatch [path to patch file] [teselation level] [output file name] --");
+        puts("-- ./generator bezierPatch [path to patch file] [teselation level] [output file name]  --");
         puts("-----------------------------------------------------------------------------------------");
         puts("-----------------------------------------------------------------------------------------");
     }

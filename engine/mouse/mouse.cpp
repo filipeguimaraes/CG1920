@@ -7,7 +7,10 @@
 #endif
 
 float camX = 00, camY = 30, camZ = 40;
+float lookX=0, lookY=0,  lookZ=0;
+float upX=0, upY=1, upZ=0;
 int startX, startY, tracking = 0;
+
 
 int alpha = 0, beta = 45, r = 50;
 
@@ -23,6 +26,39 @@ float getCamY(){
 
 float getCamZ(){
     return camZ;
+}
+
+
+float getlookX(){
+    return lookX;
+}
+
+float getlookY(){
+    return lookY;
+}
+
+float getlookZ(){
+    return lookZ;
+}
+
+
+float getupX(){
+    return upX;
+}
+
+float getupY(){
+    return upY;
+}
+
+float getupZ(){
+    return upZ;
+}
+
+void spherical2Cartesian() {
+
+    camX = r * cos(beta) * sin(alpha);
+    camY = r * sin(beta);
+    camZ = r * cos(beta) * cos(alpha);
 }
 
 

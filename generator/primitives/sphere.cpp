@@ -2,17 +2,17 @@
 #include "../utils/utils.h"
 #include <math.h>
 
-std::vector<float> normal, texture;
+std::vector<float> normalsphere, texturesphere;
 
-void add_point_normal(float x, float y, float z) {
-    normal.push_back(x);
-    normal.push_back(y);
-    normal.push_back(z);
+void add_point_normalsphere(float x, float y, float z) {
+    normalsphere.push_back(x);
+    normalsphere.push_back(y);
+    normalsphere.push_back(z);
 }
 
-void add_point_texture(float f1, float f2) {
-    texture.push_back(f1);
-    texture.push_back(f2);
+void add_point_texturesphere(float f1, float f2) {
+    texturesphere.push_back(f1);
+    texturesphere.push_back(f2);
 }
 
 
@@ -24,9 +24,14 @@ void findPosition(FILE *f, float raio, int stacks, int slices, float alfa_j, flo
                 (float) raio * sin(beta),
                 (float) raio * cos(beta) * cos(alfa));
 
-    add_point_normal((float) raio * cos(beta) * sin(alfa),
-                     (float) raio * sin(beta),
-                     (float) raio * cos(beta) * cos(alfa));
+    add_point_normalsphere((float) raio * cos(beta) * sin(alfa),
+                           (float) raio * sin(beta),
+                           (float) raio * cos(beta) * cos(alfa));
+
+    float x = (alfa) / (2 * M_PI);
+    float y = (beta + (M_PI/2)) / (M_PI);
+
+    add_point_texturesphere(x, y);
 }
 
 
@@ -113,8 +118,8 @@ void sphere(char *file, float raio, int slices, int stacks) {
         }
     }
 
-    write_normal(f,normal);
-    write_texture(f,texture);
+    write_normal(f, normalsphere);
+    write_texture(f, texturesphere);
 
     fclose(f);
 }

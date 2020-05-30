@@ -1,0 +1,7 @@
+<scene>
+    <group>
+        <models>
+            <model file="box.3d" texture="cube.jpg"/>
+        </models>
+    </group>
+</scene>

@@ -437,7 +437,7 @@ int main(int argc, char **argv) {
 //registration of the mouse (functions in mouse.h)
     glutMouseFunc(processMouseButtons);
     glutMotionFunc(processMouseMotion);
-
+    //glutKeyboardFunc(processKeys);
 
 //  OpenGL settings
     glEnable(GL_DEPTH_TEST);

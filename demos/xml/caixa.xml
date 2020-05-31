@@ -1,7 +1,10 @@
 <scene>
+    <lights>
+        <light type="POINT" posX="0" posY="30" posZ="0" />
+    </lights>
     <group>
         <models>
-            <model file="box.3d" texture="cube.jpg"/>
+            <model file="primitives/box.3d" texture="textures/cube.jpg" emisR="0.5" emisG="0.5" emisB="0.5"/>
         </models>
     </group>
 </scene>

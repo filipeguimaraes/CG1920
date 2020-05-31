@@ -1,7 +1,17 @@
 <scene>
+    <lights>
+        <light type="POINT" posX="0" posY="5" posZ="0" />
+    </lights>
     <group>
         <models>
-            <model file="primitives/teapot.3d" texture="textures/teapot.jpg"/>
+            <translate X="5" Y="0" Z="0" />
+            <model file="primitives/teapot.3d" texture="textures/teapot.jpg" />
+        </models>
+    </group>
+    <group>
+        <translate X="-5" Y="0" Z="0" />
+        <models>
+            <model file="primitives/teapot.3d" />
         </models>
     </group>
 </scene>

@@ -1,7 +1,10 @@
 <scene>
+    <lights>
+        <light type="POINT" posX="10" posY="10" posZ="10" />
+    </lights>
     <group>
         <models>
-            <model file="cone.3d" texture="cone.jpg"/>
+            <model file="primitives/cone.3d" texture="textures/cone.jpg" diffR="0.8" diffG="0.8" diffB="0.15"/>
         </models>
     </group>
 </scene>

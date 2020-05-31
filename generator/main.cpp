@@ -48,7 +48,7 @@ int main(int argc, char ** argv) {
         puts("-- ./generator box [X value] [Y value] [Z value] [divisions number] [output file name] --");
         puts("-----------------------------------------------------------------------------------------");
         puts("-- Cone:                                                                               --");
-        puts("-- ./generator cone [radius] [height] [slices] [stacks] [output file name]             --");
+        puts("-- ./generator cone [height] [radius] [slices] [stacks] [output file name]             --");
         puts("-----------------------------------------------------------------------------------------");
         puts("-- Sphere:                                                                             --");
         puts("-- ./generator sphere [radius] [slices] [stacks] [output file name]                    --");

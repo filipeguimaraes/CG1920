@@ -1,7 +1,10 @@
 <scene>
+    <lights>
+        <light type="POINT" posX="5" posY="5" posZ="5" />
+    </lights>
     <group>
         <models>
-            <model file="sphere.3d" texture="earth.jpg"/>
+            <model file="primitives/sphere.3d" texture="textures/earth.jpg" />
         </models>
     </group>
 </scene>

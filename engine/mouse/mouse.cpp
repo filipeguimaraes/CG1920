@@ -121,3 +121,4 @@ void processMouseMotion(int xx, int yy) {
     camZ = rAux * cos(alphaAux * M_PI/ 180.0) * cos(betaAux * M_PI / 180.0);
     camY = rAux * sin(betaAux * M_PI / 180.0);
 }
+

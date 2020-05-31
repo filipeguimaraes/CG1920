@@ -25,5 +25,6 @@ float getupY();
 
 float getupZ();
 
+void processKeys(unsigned char key, int xx, int yy);
 
 #endif //ENGINE_MOUSE_H

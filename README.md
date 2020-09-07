@@ -5,4 +5,5 @@ The goal of this assignment is to develop a mini scene graph based 3D engine and
 
 ![Without Lights](./nolight.png)
 
-![With Lights](./light.png)
+<img src="./light.png" alt="With Lights" width="100%"/>
+
